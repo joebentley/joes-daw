@@ -1,0 +1,16 @@
+
+daw: {
+  clock -> track.sequencer
+
+  track: {
+    style.multiple: true
+
+    sequencer -> synth: control
+    synth -> effect: audio
+  }
+
+  track.effect -> mixer: mix
+  track.effect -> mixer: mix
+  track.effect -> mixer: mix
+}
+
