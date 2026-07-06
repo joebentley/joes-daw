@@ -5,11 +5,16 @@ MainComponent::MainComponent() {
     setSize(600, 400);
     addAndMakeVisible(m_showAudioDeviceSelectorWindowButton);
     m_showAudioDeviceSelectorWindowButton.addListener(this);
+    
+    m_audioDeviceManager.initialiseWithDefaultDevices(0, 2);
+    m_audioDeviceManager.addAudioCallback(&m_audioCallback);
 }
 
 MainComponent::~MainComponent() {
     if (m_audioDeviceSelectorWindow != nullptr)
         delete m_audioDeviceSelectorWindow;
+
+    m_audioDeviceManager.removeAudioCallback(&m_audioCallback);
 }
 
 //==============================================================================

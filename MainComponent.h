@@ -9,6 +9,7 @@
 #include <juce_gui_basics/juce_gui_basics.h>
 #include <juce_core/juce_core.h>
 
+#include "AudioCallback.h"
 #include "AudioDeviceSelectorWindow.h"
 
 //==============================================================================
@@ -34,6 +35,7 @@ private:
     juce::AudioDeviceManager m_audioDeviceManager;
     juce::TextButton m_showAudioDeviceSelectorWindowButton{"Audio settings"};
     AudioDeviceSelectorWindow *m_audioDeviceSelectorWindow = nullptr;
+    AudioCallback m_audioCallback;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(MainComponent)
 };

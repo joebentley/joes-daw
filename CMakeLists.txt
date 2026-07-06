@@ -18,7 +18,8 @@ target_sources(daw
     PRIVATE
         Main.cpp
         MainComponent.cpp
-        AudioDeviceSelectorWindow.cpp)
+        AudioDeviceSelectorWindow.cpp
+        AudioCallback.cpp)
 
 target_compile_definitions(daw
     PRIVATE
