@@ -7,7 +7,14 @@
 
 
 class Track {
+public:
     void renderNextBlock(Clock clock, juce::AudioBuffer<float> &toFill);
+
+    void setSequencerOwned(Sequencer *sequencer);
+
+    void setSynthOwned(Synth *synth);
+
+    ~Track();
 
 private:
     Sequencer *m_sequencer = nullptr;

@@ -22,8 +22,8 @@ target_sources(daw
         Source/AudioCallback.cpp
         Source/Clock.cpp
         Source/Track.cpp
-        Source/Sequencer.cpp
-        Source/Synth.cpp)
+        Source/Sequencers/RepeatingSequencer.cpp
+        Source/Synths/PingSynth.cpp)
 
 target_compile_definitions(daw
     PRIVATE

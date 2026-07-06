@@ -1,25 +1,28 @@
 #include "AudioCallback.h"
 
+#include "Sequencers/RepeatingSequencer.h"
+#include "Synths/PingSynth.h"
+
+AudioCallback::AudioCallback() {
+    m_myTrack.setSequencerOwned(new RepeatingSequencer(2.0));
+    m_myTrack.setSynthOwned(new PingSynth());
+}
+
 void AudioCallback::audioDeviceIOCallbackWithContext(const float *const *, int,
                                                      float *const *outputChannelData, int numOutputChannels,
                                                      int numSamples,
                                                      const juce::AudioIODeviceCallbackContext &) {
     jassert(numOutputChannels == 2);
 
+    juce::AudioBuffer toFill(outputChannelData, numOutputChannels, numSamples);
 
-    for (int channel = 0; channel < 2; channel++) {
-        float *outputChannel = outputChannelData[channel];
-        for (int i = 0; i < numSamples; i++) {
-            double t = clock.getTime(i);
-            outputChannel[i] = static_cast<float>(0.2 * sin(1000.f * t));
-        }
-    }
+    m_myTrack.renderNextBlock(m_clock, toFill);
 
-    clock.addSampleCount(static_cast<uint64_t>(numSamples));
+    m_clock.addSampleCount(static_cast<uint64_t>(numSamples));
 }
 
 void AudioCallback::audioDeviceAboutToStart(juce::AudioIODevice *device) {
-    clock.setSampleRate(device->getCurrentSampleRate());
+    m_clock.setSampleRate(device->getCurrentSampleRate());
 }
 
 void AudioCallback::audioDeviceStopped() {
