@@ -16,10 +16,10 @@ juce_add_gui_app(daw
 
 target_sources(daw
     PRIVATE
-        Main.cpp
-        MainComponent.cpp
-        AudioDeviceSelectorWindow.cpp
-        AudioCallback.cpp)
+        Source/Main.cpp
+        Source/MainComponent.cpp
+        Source/AudioDeviceSelectorWindow.cpp
+        Source/AudioCallback.cpp)
 
 target_compile_definitions(daw
     PRIVATE
