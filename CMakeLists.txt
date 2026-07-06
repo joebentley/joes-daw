@@ -19,7 +19,11 @@ target_sources(daw
         Source/Main.cpp
         Source/MainComponent.cpp
         Source/AudioDeviceSelectorWindow.cpp
-        Source/AudioCallback.cpp)
+        Source/AudioCallback.cpp
+        Source/Clock.cpp
+        Source/Track.cpp
+        Source/Sequencer.cpp
+        Source/Synth.cpp)
 
 target_compile_definitions(daw
     PRIVATE
