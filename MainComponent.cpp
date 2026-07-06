@@ -5,7 +5,7 @@ MainComponent::MainComponent() {
     setSize(600, 400);
     addAndMakeVisible(m_showAudioDeviceSelectorWindowButton);
     m_showAudioDeviceSelectorWindowButton.addListener(this);
-    
+
     m_audioDeviceManager.initialiseWithDefaultDevices(0, 2);
     m_audioDeviceManager.addAudioCallback(&m_audioCallback);
 }
@@ -28,7 +28,7 @@ void MainComponent::paint(juce::Graphics &g) {
 }
 
 void MainComponent::resized() {
-    m_showAudioDeviceSelectorWindowButton.setBounds(300, 300, 100, 30);
+    m_showAudioDeviceSelectorWindowButton.setBounds(getWidth() - 110, getHeight() - 35, 100, 25);
 }
 
 void MainComponent::buttonClicked(juce::Button *button) {
