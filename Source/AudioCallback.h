@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Clock.h"
 #include <juce_audio_devices/juce_audio_devices.h>
 
 class AudioCallback : public juce::AudioIODeviceCallback {
@@ -13,8 +14,5 @@ public:
     void audioDeviceStopped() override;
 
 private:
-    double getTime(int samplesOffset);
-
-    uint64_t m_samples = 0;
-    double m_sampleRate = 0.0;
+    Clock clock;
 };

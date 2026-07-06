@@ -1,6 +1,7 @@
 #pragma once
-#include "AudioCallback.h"
+#include <cstdint>
 
+class AudioCallback;
 
 class Clock {
 public:
@@ -10,7 +11,7 @@ private:
     double m_sampleRate = 0.0;
     uint64_t m_samples = 0;
 
-    void setSampleCount(uint64_t samples);
+    void addSampleCount(uint64_t samples);
 
     void setSampleRate(double sampleRate);
 

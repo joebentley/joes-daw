@@ -4,8 +4,8 @@ double Clock::getTime(int sampleOffset) const {
     return static_cast<double>(m_samples + static_cast<uint64_t>(sampleOffset)) / m_sampleRate;
 }
 
-void Clock::setSampleCount(uint64_t samples) {
-    m_samples = samples;
+void Clock::addSampleCount(uint64_t samples) {
+    m_samples += samples;
 }
 
 void Clock::setSampleRate(double sampleRate) {
