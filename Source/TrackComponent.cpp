@@ -19,6 +19,7 @@ void TrackComponent::resized() {
 void TrackComponent::setSynthComponentOwned(SynthComponent *synthComponent) {
     if (m_synthComponent != nullptr) {
         removeChildComponent(m_synthComponent);
+        delete m_synthComponent;
     }
 
     m_synthComponent = synthComponent;
@@ -30,6 +31,7 @@ void TrackComponent::setSynthComponentOwned(SynthComponent *synthComponent) {
 void TrackComponent::setSequencerComponentOwned(SequencerComponent *sequencerComponent) {
     if (m_sequencerComponent != nullptr) {
         removeChildComponent(m_sequencerComponent);
+        delete m_sequencerComponent;
     }
 
     m_sequencerComponent = sequencerComponent;
