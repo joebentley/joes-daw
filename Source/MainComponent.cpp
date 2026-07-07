@@ -11,12 +11,14 @@ MainComponent::MainComponent() {
     m_audioDeviceManager.initialiseWithDefaultDevices(0, 2);
     m_audioDeviceManager.addAudioCallback(&m_audioCallback);
 
-    addAndMakeVisible(m_trackComponent);
-    m_trackComponent.setSequencerComponentOwned(new RepeatingSequencerComponent());
-    m_trackComponent.setSynthComponentOwned(new PingSynthComponent());
-    m_audioCallback.setTrack(m_trackComponent.track());
+    for (int i = 0; i < 4; ++i) {
+        addAndMakeVisible(m_trackComponents[i]);
+        m_trackComponents[i].setSequencerComponentOwned(new RepeatingSequencerComponent());
+        m_trackComponents[i].setSynthComponentOwned(new PingSynthComponent());
+        m_audioCallback.setTrack(m_trackComponents[i].track(), i);
+    }
 
-    setSize(800, 800);
+    setSize(1000, 800);
 }
 
 MainComponent::~MainComponent() {
@@ -31,15 +33,20 @@ void MainComponent::paint(juce::Graphics &g) {
     // (Our component is opaque, so we must completely fill the background with a solid colour)
     g.fillAll(getLookAndFeel().findColour(juce::ResizableWindow::backgroundColourId));
 
-    g.setFont(juce::FontOptions(16.0f));
-    g.setColour(juce::Colours::white);
-    g.drawText("Hello World!", getLocalBounds(), juce::Justification::centred, true);
+    g.setColour(juce::Colours::grey);
+
+    for (int i = 0; i < 4; ++i) {
+        const float x = static_cast<float>(i * 220 - 5);
+        g.drawLine(x, 30, x, static_cast<float>(getHeight() - 100), 2);
+    }
 }
 
 void MainComponent::resized() {
     m_showAudioDeviceSelectorWindowButton.setBounds(getWidth() - 110, getHeight() - 35, 100, 25);
 
-    m_trackComponent.setBounds(0, 0, 400, 800);
+    for (int i = 0; i < 4; ++i) {
+        m_trackComponents[i].setBounds(i * 220, 0, 200, 800);
+    }
 }
 
 void MainComponent::buttonClicked(juce::Button *button) {

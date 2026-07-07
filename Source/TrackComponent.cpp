@@ -1,5 +1,11 @@
 #include "TrackComponent.h"
 
+TrackComponent::TrackComponent() {
+    addAndMakeVisible(m_mutedButton);
+    m_mutedButton.addListener(this);
+    m_mutedButton.setToggleState(false, juce::NotificationType::dontSendNotification);
+}
+
 TrackComponent::~TrackComponent() {
     delete m_sequencerComponent;
     delete m_synthComponent;
@@ -9,11 +15,20 @@ void TrackComponent::resized() {
     constexpr int padding = 10;
     constexpr int size = 200;
 
+    m_mutedButton.setBounds(90, 20, 40, 40);
+
     if (m_sequencerComponent != nullptr)
-        m_sequencerComponent->setBounds(padding, padding, size - padding, size - padding);
+        m_sequencerComponent->setBounds(padding, padding + 50, size - padding, size - padding);
 
     if (m_synthComponent != nullptr)
-        m_synthComponent->setBounds(padding, 2 * padding + size, size - padding, size - padding);
+        m_synthComponent->setBounds(padding, 2 * padding + size + 50, size - padding, size - padding);
+}
+
+void TrackComponent::buttonClicked(juce::Button *button) {
+    printf("Toggled\n");
+    if (button == &m_mutedButton) {
+        m_track.setMuted(!m_track.muted());
+    }
 }
 
 void TrackComponent::setSynthComponentOwned(SynthComponent *synthComponent) {

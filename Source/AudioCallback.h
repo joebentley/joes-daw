@@ -15,10 +15,10 @@ public:
 
     void audioDeviceStopped() override;
 
-    void setTrack(Track *track);
+    void setTrack(Track *track, int n);
 
 private:
     Clock m_clock;
 
-    Track *m_myTrack = nullptr;
+    Track *m_tracks[4] = {nullptr, nullptr, nullptr, nullptr};
 };

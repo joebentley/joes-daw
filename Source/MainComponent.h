@@ -38,7 +38,7 @@ private:
     AudioDeviceSelectorWindow *m_audioDeviceSelectorWindow = nullptr;
     AudioCallback m_audioCallback;
 
-    TrackComponent m_trackComponent;
+    TrackComponent m_trackComponents[4];
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(MainComponent)
 };

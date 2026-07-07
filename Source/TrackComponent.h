@@ -7,11 +7,15 @@
 #include "Track.h"
 
 
-class TrackComponent : public juce::Component {
+class TrackComponent : public juce::Component, public juce::Button::Listener {
 public:
+    TrackComponent();
+
     ~TrackComponent() override;
 
     void resized() override;
+
+    void buttonClicked(juce::Button *) override;
 
     void setSequencerComponentOwned(SequencerComponent *sequencerComponent);
 
@@ -25,4 +29,6 @@ private:
     Track m_track;
     SequencerComponent *m_sequencerComponent = nullptr;
     SynthComponent *m_synthComponent = nullptr;
+
+    juce::ToggleButton m_mutedButton;
 };
