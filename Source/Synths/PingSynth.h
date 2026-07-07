@@ -11,4 +11,6 @@ private:
     [[nodiscard]] double getVolume(double t) const;
 
     double m_lastEventTime = 0.0;
+    double m_decayRate = 10.0;
+    double m_frequency = 1000.0;
 };

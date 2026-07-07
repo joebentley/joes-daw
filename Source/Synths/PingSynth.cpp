@@ -18,11 +18,11 @@ void PingSynth::renderNextBlock(const Clock &clock, const juce::Array<Event> &ev
         }
 
         const double volume = getVolume(t);
-        lChan[i] = static_cast<float>(volume * sin(1000.0 * t));
-        rChan[i] = static_cast<float>(volume * sin(1000.0 * t));
+        lChan[i] = static_cast<float>(volume * sin(m_frequency * t));
+        rChan[i] = static_cast<float>(volume * sin(m_frequency * t));
     }
 }
 
 double PingSynth::getVolume(const double t) const {
-    return exp(-(t - m_lastEventTime));
+    return exp(-(t - m_lastEventTime) * m_decayRate);
 }
