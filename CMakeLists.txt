@@ -23,6 +23,7 @@ target_sources(daw
         Source/Clock.cpp
         Source/Track.cpp
         Source/TrackComponent.cpp
+        Source/DeviceComponent.cpp
         Source/SequencerComponent.cpp
         Source/Sequencers/RepeatingSequencer.cpp
         Source/Sequencers/RepeatingSequencerComponent.cpp
