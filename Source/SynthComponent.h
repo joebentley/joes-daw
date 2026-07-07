@@ -5,5 +5,7 @@
 
 class SynthComponent : public DeviceComponent {
 public:
+    SynthComponent();
+
     virtual Synth *synth() = 0;
 };

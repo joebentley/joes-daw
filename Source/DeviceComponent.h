@@ -9,4 +9,7 @@ public:
     void paint(juce::Graphics &g) override;
 
     void resized() override;
+
+protected:
+    juce::ComboBox m_deviceTypeComboBox;
 };

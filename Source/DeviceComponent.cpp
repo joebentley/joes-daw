@@ -1,6 +1,7 @@
 #include "DeviceComponent.h"
 
 DeviceComponent::DeviceComponent() {
+    addAndMakeVisible(m_deviceTypeComboBox);
 }
 
 void DeviceComponent::paint(juce::Graphics &g) {
@@ -9,5 +10,5 @@ void DeviceComponent::paint(juce::Graphics &g) {
 }
 
 void DeviceComponent::resized() {
-    Component::resized();
+    m_deviceTypeComboBox.setBounds(140, 10, 40, 20);
 }

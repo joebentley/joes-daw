@@ -6,5 +6,7 @@
 
 class SequencerComponent : public DeviceComponent {
 public:
+    SequencerComponent();
+
     virtual Sequencer *sequencer() = 0;
 };
