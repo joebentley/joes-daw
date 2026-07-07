@@ -1,13 +1,22 @@
 #include "MainComponent.h"
 
+#include "Sequencers/RepeatingSequencerComponent.h"
+#include "Synths/PingSynthComponent.h"
+
 //==============================================================================
 MainComponent::MainComponent() {
-    setSize(600, 400);
     addAndMakeVisible(m_showAudioDeviceSelectorWindowButton);
     m_showAudioDeviceSelectorWindowButton.addListener(this);
 
     m_audioDeviceManager.initialiseWithDefaultDevices(0, 2);
     m_audioDeviceManager.addAudioCallback(&m_audioCallback);
+
+    addAndMakeVisible(m_trackComponent);
+    m_trackComponent.setSequencerComponentOwned(new RepeatingSequencerComponent());
+    m_trackComponent.setSynthComponentOwned(new PingSynthComponent());
+    m_audioCallback.setTrack(m_trackComponent.track());
+
+    setSize(800, 800);
 }
 
 MainComponent::~MainComponent() {
@@ -29,6 +38,8 @@ void MainComponent::paint(juce::Graphics &g) {
 
 void MainComponent::resized() {
     m_showAudioDeviceSelectorWindowButton.setBounds(getWidth() - 110, getHeight() - 35, 100, 25);
+
+    m_trackComponent.setBounds(0, 0, 400, 800);
 }
 
 void MainComponent::buttonClicked(juce::Button *button) {

@@ -4,6 +4,22 @@
 
 class PingSynth : public Synth {
 public:
+    [[nodiscard]] double decayRate() const {
+        return m_decayRate;
+    }
+
+    void setDecayRate(double decayRate) {
+        m_decayRate = decayRate;
+    }
+
+    [[nodiscard]] double frequency() const {
+        return m_frequency;
+    }
+
+    void setFrequency(double frequency) {
+        m_frequency = frequency;
+    }
+
     void renderNextBlock(const Clock &clock, const juce::Array<Event> &eventBuffer,
                          juce::AudioBuffer<float> &toFill) override;
 

@@ -11,6 +11,7 @@
 
 #include "AudioCallback.h"
 #include "AudioDeviceSelectorWindow.h"
+#include "TrackComponent.h"
 
 //==============================================================================
 /*
@@ -36,6 +37,8 @@ private:
     juce::TextButton m_showAudioDeviceSelectorWindowButton{"Audio settings"};
     AudioDeviceSelectorWindow *m_audioDeviceSelectorWindow = nullptr;
     AudioCallback m_audioCallback;
+
+    TrackComponent m_trackComponent;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(MainComponent)
 };

@@ -1,6 +1,6 @@
 #include "Track.h"
 
-void Track::renderNextBlock(Clock clock, juce::AudioBuffer<float> &toFill) {
+void Track::renderNextBlock(const Clock clock, juce::AudioBuffer<float> &toFill) const {
     jassert(m_sequencer != nullptr);
     jassert(m_synth != nullptr);
 
@@ -8,15 +8,10 @@ void Track::renderNextBlock(Clock clock, juce::AudioBuffer<float> &toFill) {
     m_synth->renderNextBlock(clock, events, toFill);
 }
 
-void Track::setSequencerOwned(Sequencer *sequencer) {
+void Track::setSequencer(Sequencer *sequencer) {
     m_sequencer = sequencer;
 }
 
-void Track::setSynthOwned(Synth *synth) {
+void Track::setSynth(Synth *synth) {
     m_synth = synth;
-}
-
-Track::~Track() {
-    delete m_sequencer;
-    delete m_synth;
 }

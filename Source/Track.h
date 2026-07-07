@@ -8,13 +8,11 @@
 
 class Track {
 public:
-    void renderNextBlock(Clock clock, juce::AudioBuffer<float> &toFill);
+    void renderNextBlock(Clock clock, juce::AudioBuffer<float> &toFill) const;
 
-    void setSequencerOwned(Sequencer *sequencer);
+    void setSequencer(Sequencer *sequencer);
 
-    void setSynthOwned(Synth *synth);
-
-    ~Track();
+    void setSynth(Synth *synth);
 
 private:
     Sequencer *m_sequencer = nullptr;

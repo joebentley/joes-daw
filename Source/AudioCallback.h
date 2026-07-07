@@ -7,8 +7,6 @@
 
 class AudioCallback : public juce::AudioIODeviceCallback {
 public:
-    AudioCallback();
-
     void audioDeviceIOCallbackWithContext(const float *const *inputChannelData, int numInputChannels,
                                           float *const *outputChannelData, int numOutputChannels, int numSamples,
                                           const juce::AudioIODeviceCallbackContext &context) override;
@@ -17,8 +15,10 @@ public:
 
     void audioDeviceStopped() override;
 
+    void setTrack(Track *track);
+
 private:
     Clock m_clock;
 
-    Track m_myTrack;
+    Track *m_myTrack = nullptr;
 };
