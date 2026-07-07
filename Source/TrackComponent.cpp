@@ -25,7 +25,6 @@ void TrackComponent::resized() {
 }
 
 void TrackComponent::buttonClicked(juce::Button *button) {
-    printf("Toggled\n");
     if (button == &m_mutedButton) {
         m_track.setMuted(!m_track.muted());
     }
