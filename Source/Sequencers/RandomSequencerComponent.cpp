@@ -2,13 +2,13 @@
 
 RandomSequencerComponent::RandomSequencerComponent() {
     addAndMakeVisible(m_highSlider);
-    m_highSlider.setRange(0.05, 5.0, 0.01);
+    m_highSlider.setRange(0.05, 10.0, 0.01);
     m_highSlider.setSliderStyle(juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag);
     m_highSlider.setValue(m_sequencer.high());
     m_highSlider.addListener(this);
 
     addAndMakeVisible(m_lowSlider);
-    m_lowSlider.setRange(0.05, 5.0, 0.01);
+    m_lowSlider.setRange(0.05, 10.0, 0.01);
     m_lowSlider.setSliderStyle(juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag);
     m_lowSlider.setValue(m_sequencer.low());
     m_lowSlider.addListener(this);
