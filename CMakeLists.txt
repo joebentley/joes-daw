@@ -3,6 +3,7 @@ cmake_minimum_required(VERSION 3.22)
 project(DAW VERSION 0.0.1)
 
 add_subdirectory(JUCE)
+add_subdirectory(json)
 
 juce_add_gui_app(daw
     # VERSION ...                       # Set this if the app version is different to the project version
@@ -64,6 +65,7 @@ target_link_libraries(daw
         juce::juce_audio_devices
         juce::juce_audio_utils
         juce::juce_gui_basics
+        nlohmann_json::nlohmann_json
     PUBLIC
         juce::juce_recommended_config_flags
         juce::juce_recommended_lto_flags
