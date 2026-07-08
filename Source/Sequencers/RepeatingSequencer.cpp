@@ -1,6 +1,6 @@
 #include "RepeatingSequencer.h"
 
-RepeatingSequencer::RepeatingSequencer(const double rate) : m_rate(rate) {
+RepeatingSequencer::RepeatingSequencer(const double rate, const double note) : m_rate(rate), m_note(note) {
 }
 
 juce::Array<Event> RepeatingSequencer::generateEventsForTimes(double startTime, double endTime) {
@@ -18,7 +18,7 @@ juce::Array<Event> RepeatingSequencer::generateEventsForTimes(double startTime, 
     double nextEvent = m_lastEvent + period;
     if (startTime <= nextEvent && nextEvent <= endTime) {
         m_lastEvent = nextEvent;
-        events.add(Event{nextEvent});
+        events.add(Event{nextEvent, m_note});
         return events;
     }
 

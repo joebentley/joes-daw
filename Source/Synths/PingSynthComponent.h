@@ -16,5 +16,5 @@ public:
 private:
     PingSynth m_synth;
 
-    juce::Slider m_frequencySlider;
+    juce::Slider m_decaySlider;
 };

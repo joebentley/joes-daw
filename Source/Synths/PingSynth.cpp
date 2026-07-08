@@ -12,17 +12,19 @@ void PingSynth::renderNextBlock(const Clock &clock, const juce::Array<Event> &ev
 
         if (nextEventIndexToProcess < eventBuffer.size()) {
             if (t > eventBuffer[nextEventIndexToProcess].time) {
-                m_lastEventTime = eventBuffer[nextEventIndexToProcess].time;
+                m_lastEvent = eventBuffer[nextEventIndexToProcess];
                 nextEventIndexToProcess++;
             }
         }
 
         const double volume = getVolume(t);
-        lChan[i] = static_cast<float>(volume * sin(m_frequency * t));
-        rChan[i] = static_cast<float>(volume * sin(m_frequency * t));
+        const double frequency = juce::MidiMessage::getMidiNoteInHertz(static_cast<int>(round(m_lastEvent.midiNote)));
+        const float sample = static_cast<float>(volume * sin(juce::MathConstants<double>::twoPi * frequency * t));
+        lChan[i] = sample;
+        rChan[i] = sample;
     }
 }
 
 double PingSynth::getVolume(const double t) const {
-    return exp(-(t - m_lastEventTime) * m_decayRate);
+    return exp(-(t - m_lastEvent.time) * m_decayRate);
 }

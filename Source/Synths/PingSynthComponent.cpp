@@ -1,19 +1,19 @@
 #include "PingSynthComponent.h"
 
 PingSynthComponent::PingSynthComponent() {
-    addAndMakeVisible(m_frequencySlider);
-    m_frequencySlider.setRange(100, 10000, 1);
-    m_frequencySlider.setSliderStyle(juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag);
-    m_frequencySlider.setValue(m_synth.frequency());
-    m_frequencySlider.addListener(this);
+    addAndMakeVisible(m_decaySlider);
+    m_decaySlider.setRange(0.1, 30.0, 0.1);
+    m_decaySlider.setSliderStyle(juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag);
+    m_decaySlider.setValue(m_synth.decayRate());
+    m_decaySlider.addListener(this);
 }
 
 void PingSynthComponent::resized() {
-    m_frequencySlider.setBounds(10, 10, 180, 180);
+    m_decaySlider.setBounds(10, 10, 180, 180);
 
     SynthComponent::resized();
 }
 
 void PingSynthComponent::sliderValueChanged(juce::Slider *slider) {
-    m_synth.setFrequency(slider->getValue());
+    m_synth.setDecayRate(slider->getValue());
 }

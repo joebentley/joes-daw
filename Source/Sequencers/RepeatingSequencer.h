@@ -4,7 +4,7 @@
 
 class RepeatingSequencer : public Sequencer {
 public:
-    explicit RepeatingSequencer(double rate = 1.0);
+    explicit RepeatingSequencer(double rate = 1.0, double note = 60.0);
 
     juce::Array<Event> generateEventsForTimes(double startTime, double endTime) override;
 
@@ -17,7 +17,16 @@ public:
         m_lastEvent = -1.0;
     }
 
+    [[nodiscard]] double note() const {
+        return m_note;
+    }
+
+    void setNote(double note) {
+        m_note = note;
+    }
+
 private:
     double m_lastEvent = -1.0;
     double m_rate;
+    double m_note;
 };

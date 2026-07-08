@@ -17,4 +17,5 @@ private:
     RepeatingSequencer m_sequencer;
 
     juce::Slider m_rateSlider;
+    juce::Slider m_noteSlider;
 };
