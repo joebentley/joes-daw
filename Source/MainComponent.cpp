@@ -16,7 +16,7 @@ MainComponent::MainComponent() {
         m_audioCallback.setTrack(m_trackComponents[i].track(), i);
     }
 
-    setSize(1000, 800);
+    setSize(870, 600);
 }
 
 MainComponent::~MainComponent() {
@@ -35,7 +35,7 @@ void MainComponent::paint(juce::Graphics &g) {
 
     for (int i = 0; i < 4; ++i) {
         const float x = static_cast<float>(i * 220 - 5);
-        g.drawLine(x, 30, x, static_cast<float>(getHeight() - 100), 2);
+        g.drawLine(x, 30, x, static_cast<float>(getHeight() - 40), 2);
     }
 }
 
