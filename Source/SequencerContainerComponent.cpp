@@ -50,7 +50,7 @@ void SequencerContainerComponent::comboBoxChanged(juce::ComboBox *comboBoxThatHa
         m_sequencerComponent = new RandomSequencerComponent();
     }
 
-    addAndMakeVisible(m_sequencerComponent);
+    addAndMakeVisible(m_sequencerComponent, 0);
     m_listener->sequencerChanged(m_sequencerComponent->sequencer());
     resized();
 }

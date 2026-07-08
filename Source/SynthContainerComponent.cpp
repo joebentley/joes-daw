@@ -49,7 +49,7 @@ void SynthContainerComponent::comboBoxChanged(juce::ComboBox *comboBoxThatHasCha
         m_synthComponent = new NoiseSynthComponent();
     }
 
-    addAndMakeVisible(m_synthComponent);
+    addAndMakeVisible(m_synthComponent, 0);
     m_listener->synthChanged(m_synthComponent->synth());
     resized();
 }
