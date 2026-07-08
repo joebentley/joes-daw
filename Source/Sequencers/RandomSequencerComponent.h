@@ -16,6 +16,9 @@ public:
 private:
     RandomSequencer m_sequencer;
 
-    juce::Slider m_lowSlider;
-    juce::Slider m_highSlider;
+    juce::Slider m_lowRateSlider;
+    juce::Slider m_highRateSlider;
+
+    juce::Slider m_lowNoteSlider;
+    juce::Slider m_highNoteSlider;
 };

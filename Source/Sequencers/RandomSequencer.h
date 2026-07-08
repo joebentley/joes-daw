@@ -4,35 +4,58 @@
 
 class RandomSequencer : public Sequencer {
 public:
-    explicit RandomSequencer(double low = 0.5, double high = 2.0);
+    explicit RandomSequencer(double lowRate = 0.5, double highRate = 2.0, int lowNote = 40, int highNote = 80);
 
     juce::Array<Event> generateEventsForTimes(double startTime, double endTime) override;
 
-    [[nodiscard]] double low() const {
-        return m_low;
+    [[nodiscard]] double lowRate() const {
+        return m_lowRate;
     }
 
-    void setLow(double low) {
-        m_low = low;
+    void setLowRate(double lowRate) {
+        m_lowRate = lowRate;
         m_lastEvent = -1.0;
     }
 
-    [[nodiscard]] double high() const {
-        return m_high;
+    [[nodiscard]] double highRate() const {
+        return m_highRate;
     }
 
-    void setHigh(double high) {
-        m_high = high;
+    void setHighRate(double highRate) {
+        m_highRate = highRate;
         m_lastEvent = -1.0;
+    }
+
+    [[nodiscard]] int lowNote() const {
+        return m_lowNote;
+    }
+
+    void setLowNote(int lowNote) {
+        m_lowNote = lowNote;
+    }
+
+    [[nodiscard]] int highNote() const {
+        return m_highNote;
+    }
+
+    void setHighNote(int highNote) {
+        m_highNote = highNote;
     }
 
 private:
     double m_lastEvent = -1.0;
-    double m_low;
-    double m_high;
+
+    double m_lowRate;
+    double m_highRate;
     double m_rate = 0.0;
 
+    int m_lowNote;
+    int m_highNote;
+    int m_note = 60;
+
     void generateRandomRate();
+
+    void generateRandomNote();
 
     juce::Random m_random;
 };
