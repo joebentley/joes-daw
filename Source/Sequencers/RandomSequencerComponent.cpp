@@ -15,8 +15,8 @@ RandomSequencerComponent::RandomSequencerComponent() {
 }
 
 void RandomSequencerComponent::resized() {
-    m_lowSlider.setBounds(10, 10, 180, 90);
-    m_highSlider.setBounds(10, 100, 180, 90);
+    m_lowSlider.setBounds(10, 40, 180, 70);
+    m_highSlider.setBounds(10, 100, 180, 70);
 
     SequencerComponent::resized();
 }
