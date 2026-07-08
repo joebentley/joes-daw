@@ -1,14 +1,15 @@
 #include "TrackComponent.h"
 
-TrackComponent::TrackComponent() {
+TrackComponent::TrackComponent() : m_sequencerContainerComponent(m_track), m_synthContainerComponent(m_track) {
     addAndMakeVisible(m_mutedButton);
     m_mutedButton.addListener(this);
     m_mutedButton.setToggleState(false, juce::NotificationType::dontSendNotification);
-}
 
-TrackComponent::~TrackComponent() {
-    delete m_sequencerComponent;
-    delete m_synthComponent;
+    addAndMakeVisible(m_sequencerContainerComponent);
+    addAndMakeVisible(m_synthContainerComponent);
+
+    m_sequencerContainerComponent.setListener(this);
+    m_synthContainerComponent.setListener(this);
 }
 
 void TrackComponent::resized() {
@@ -17,11 +18,9 @@ void TrackComponent::resized() {
 
     m_mutedButton.setBounds(90, 20, 40, 40);
 
-    if (m_sequencerComponent != nullptr)
-        m_sequencerComponent->setBounds(padding, padding + 50, size - padding, size - padding);
+    m_sequencerContainerComponent.setBounds(padding, padding + 50, size - padding, size - padding);
 
-    if (m_synthComponent != nullptr)
-        m_synthComponent->setBounds(padding, 2 * padding + size + 50, size - padding, size - padding);
+    m_synthContainerComponent.setBounds(padding, 2 * padding + size + 50, size - padding, size - padding);
 }
 
 void TrackComponent::buttonClicked(juce::Button *button) {
@@ -30,26 +29,10 @@ void TrackComponent::buttonClicked(juce::Button *button) {
     }
 }
 
-void TrackComponent::setSynthComponentOwned(SynthComponent *synthComponent) {
-    if (m_synthComponent != nullptr) {
-        removeChildComponent(m_synthComponent);
-        delete m_synthComponent;
-    }
-
-    m_synthComponent = synthComponent;
-    m_track.setSynth(m_synthComponent->synth());
-    addAndMakeVisible(m_synthComponent);
-    resized();
+void TrackComponent::sequencerChanged(Sequencer *sequencer) {
+    m_track.setSequencer(sequencer);
 }
 
-void TrackComponent::setSequencerComponentOwned(SequencerComponent *sequencerComponent) {
-    if (m_sequencerComponent != nullptr) {
-        removeChildComponent(m_sequencerComponent);
-        delete m_sequencerComponent;
-    }
-
-    m_sequencerComponent = sequencerComponent;
-    m_track.setSequencer(m_sequencerComponent->sequencer());
-    addAndMakeVisible(m_sequencerComponent);
-    resized();
+void TrackComponent::synthChanged(Synth *synth) {
+    m_track.setSynth(synth);
 }

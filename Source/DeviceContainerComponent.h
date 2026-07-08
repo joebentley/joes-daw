@@ -2,9 +2,9 @@
 
 #include <juce_gui_basics/juce_gui_basics.h>
 
-class DeviceComponent : public juce::Component {
+class DeviceContainerComponent : public juce::Component {
 public:
-    DeviceComponent();
+    DeviceContainerComponent();
 
     void paint(juce::Graphics &g) override;
 

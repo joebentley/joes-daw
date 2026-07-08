@@ -13,8 +13,6 @@ MainComponent::MainComponent() {
 
     for (int i = 0; i < 4; ++i) {
         addAndMakeVisible(m_trackComponents[i]);
-        m_trackComponents[i].setSequencerComponentOwned(new RepeatingSequencerComponent());
-        m_trackComponents[i].setSynthComponentOwned(new PingSynthComponent());
         m_audioCallback.setTrack(m_trackComponents[i].track(), i);
     }
 

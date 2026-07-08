@@ -1,12 +1,10 @@
 #pragma once
 
 #include "Sequencer.h"
-#include "DeviceComponent.h"
+#include "DeviceContainerComponent.h"
 
 
-class SequencerComponent : public DeviceComponent {
+class SequencerComponent : public juce::Component {
 public:
-    SequencerComponent();
-
     virtual Sequencer *sequencer() = 0;
 };

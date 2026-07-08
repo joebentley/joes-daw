@@ -1,7 +1,7 @@
 #include "PingSynthComponent.h"
 
 PingSynthComponent::PingSynthComponent() {
-    addAndMakeVisible(m_frequencySlider, 0);
+    addAndMakeVisible(m_frequencySlider);
     m_frequencySlider.setRange(100, 10000, 1);
     m_frequencySlider.setSliderStyle(juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag);
     m_frequencySlider.setValue(m_synth.frequency());

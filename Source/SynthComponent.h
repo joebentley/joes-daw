@@ -1,11 +1,9 @@
 #pragma once
 
 #include "Synth.h"
-#include "DeviceComponent.h"
+#include "DeviceContainerComponent.h"
 
-class SynthComponent : public DeviceComponent {
+class SynthComponent : public juce::Component {
 public:
-    SynthComponent();
-
     virtual Synth *synth() = 0;
 };

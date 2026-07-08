@@ -1,7 +1,7 @@
 #include "RepeatingSequencerComponent.h"
 
 RepeatingSequencerComponent::RepeatingSequencerComponent() {
-    addAndMakeVisible(m_rateSlider, 0);
+    addAndMakeVisible(m_rateSlider);
     m_rateSlider.setRange(0.05, 5.0, 0.01);
     m_rateSlider.setSliderStyle(juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag);
     m_rateSlider.setValue(m_sequencer.rate());

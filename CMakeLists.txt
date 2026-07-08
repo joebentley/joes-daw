@@ -23,13 +23,17 @@ target_sources(daw
         Source/Clock.cpp
         Source/Track.cpp
         Source/TrackComponent.cpp
-        Source/DeviceComponent.cpp
-        Source/SequencerComponent.cpp
+        Source/DeviceContainerComponent.cpp
+        Source/SequencerContainerComponent.cpp
         Source/Sequencers/RepeatingSequencer.cpp
         Source/Sequencers/RepeatingSequencerComponent.cpp
-        Source/SynthComponent.cpp
+        Source/Sequencers/RandomSequencer.cpp
+        Source/Sequencers/RandomSequencerComponent.cpp
+        Source/SynthContainerComponent.cpp
         Source/Synths/PingSynth.cpp
-        Source/Synths/PingSynthComponent.cpp)
+        Source/Synths/PingSynthComponent.cpp
+        Source/Synths/NoiseSynth.cpp
+        Source/Synths/NoiseSynthComponent.cpp)
 
 target_compile_definitions(daw
     PRIVATE
