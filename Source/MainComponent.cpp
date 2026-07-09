@@ -1,7 +1,5 @@
 #include "MainComponent.h"
 
-#include "Sequencers/RepeatingSequencerComponent.h"
-#include "Synths/PingSynthComponent.h"
 
 //==============================================================================
 MainComponent::MainComponent() {

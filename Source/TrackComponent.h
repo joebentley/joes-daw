@@ -2,8 +2,6 @@
 
 #include <juce_gui_basics/juce_gui_basics.h>
 
-#include "SequencerComponent.h"
-#include "SequencerContainerComponent.h"
 #include "SequencerContainerComponent.h"
 #include "SynthComponent.h"
 #include "SynthContainerComponent.h"

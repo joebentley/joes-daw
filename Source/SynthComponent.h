@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Synth.h"
-#include "DeviceContainerComponent.h"
+#include <juce_gui_basics/juce_gui_basics.h>
 
 class SynthComponent : public juce::Component {
 public:

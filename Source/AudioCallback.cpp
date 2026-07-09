@@ -1,7 +1,5 @@
 #include "AudioCallback.h"
 
-#include "Sequencers/RepeatingSequencer.h"
-#include "Synths/PingSynth.h"
 
 void AudioCallback::audioDeviceIOCallbackWithContext(const float *const *, int,
                                                      float *const *outputChannelData, int numOutputChannels,
