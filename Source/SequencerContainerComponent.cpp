@@ -52,7 +52,8 @@ void SequencerContainerComponent::comboBoxChanged(juce::ComboBox *comboBoxThatHa
         return;
 
     removeChildComponent(m_sequencerComponent);
-    delete m_sequencerComponent;
+
+    const auto oldComponent = m_sequencerComponent;
 
     auto text = comboBoxThatHasChanged->getText();
 
@@ -71,6 +72,10 @@ void SequencerContainerComponent::comboBoxChanged(juce::ComboBox *comboBoxThatHa
 
     addAndMakeVisible(m_sequencerComponent, 0);
     m_listener->sequencerChanged(m_sequencerComponent->sequencer());
+
+    // Wait until listeners have all been notified to change until deleting to
+    // avoid race condition in AudioCallback. Proper solution is mutex
+    delete oldComponent;
     resized();
 }
 

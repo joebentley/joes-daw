@@ -50,7 +50,8 @@ void SynthContainerComponent::comboBoxChanged(juce::ComboBox *comboBoxThatHasCha
         return;
 
     removeChildComponent(m_synthComponent);
-    delete m_synthComponent;
+
+    const auto oldComponent = m_synthComponent;
 
     auto text = comboBoxThatHasChanged->getText();
 
@@ -67,6 +68,10 @@ void SynthContainerComponent::comboBoxChanged(juce::ComboBox *comboBoxThatHasCha
 
     addAndMakeVisible(m_synthComponent, 0);
     m_listener->synthChanged(m_synthComponent->synth());
+
+    // Wait until listeners have all been notified to change until deleting to
+    // avoid race condition in AudioCallback. Proper solution is mutex
+    delete oldComponent;
     resized();
 }
 
