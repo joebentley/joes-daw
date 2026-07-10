@@ -5,12 +5,20 @@
 
 //==============================================================================
 MainComponent::MainComponent(Settings::Settings &settings)
-    : m_trackComponents{
-        settings.trackSettings[0],
-        settings.trackSettings[1],
-        settings.trackSettings[2],
-        settings.trackSettings[3]
-    } {
+    : m_settings(settings),
+      m_trackComponents{
+          settings.trackSettings[0],
+          settings.trackSettings[1],
+          settings.trackSettings[2],
+          settings.trackSettings[3]
+      } {
+    addAndMakeVisible(m_volumeSlider);
+    m_volumeSlider.setRange(-60, 0.0, 0.1);
+    m_volumeSlider.setTextBoxStyle(juce::Slider::TextBoxRight, false, 50, 30);
+    m_volumeSlider.addListener(this);
+    m_audioCallback.setMasterVolume(settings.masterVolume);
+    m_volumeSlider.setValue(m_audioCallback.masterVolume());
+
     addAndMakeVisible(m_showAudioDeviceSelectorWindowButton);
     m_showAudioDeviceSelectorWindowButton.addListener(this);
 
@@ -48,10 +56,11 @@ void MainComponent::paint(juce::Graphics &g) {
 }
 
 void MainComponent::resized() {
+    m_volumeSlider.setBounds(0, getHeight() - 35, 200, 25);
     m_showAudioDeviceSelectorWindowButton.setBounds(getWidth() - 110, getHeight() - 35, 100, 25);
 
     for (int i = 0; i < 4; ++i) {
-        m_trackComponents[i].setBounds(i * 220, 0, 200, 800);
+        m_trackComponents[i].setBounds(i * 220, 0, 200, 500);
     }
 }
 
@@ -62,5 +71,13 @@ void MainComponent::buttonClicked(juce::Button *button) {
         m_audioDeviceSelectorWindow->addToDesktop();
         m_audioDeviceSelectorWindow->centreWithSize(500, 500);
         m_audioDeviceSelectorWindow->setVisible(true);
+    }
+}
+
+void MainComponent::sliderValueChanged(juce::Slider *slider) {
+    if (slider == &m_volumeSlider) {
+        m_audioCallback.setMasterVolume(slider->getValue());
+        m_settings.masterVolume = m_audioCallback.masterVolume();
+        SettingsSingleton::getInstance()->save();
     }
 }

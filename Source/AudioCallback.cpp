@@ -30,6 +30,7 @@ void AudioCallback::audioDeviceIOCallbackWithContext(const float *const *, int,
                     mixed += tracks[i].getSample(channel, sample);
                 }
             }
+            mixed *= static_cast<float>(juce::Decibels::decibelsToGain(m_masterVolume));
             toFill.setSample(channel, sample, mixed);
         }
     }
@@ -46,6 +47,14 @@ void AudioCallback::audioDeviceStopped() {
 
 void AudioCallback::setTrack(Track *track, int n) {
     m_tracks[n] = track;
+}
+
+void AudioCallback::setMasterVolume(const double masterVolumeDb) {
+    m_masterVolume = masterVolumeDb;
+}
+
+double AudioCallback::masterVolume() const {
+    return m_masterVolume;
 }
 
 

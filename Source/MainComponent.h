@@ -18,7 +18,7 @@
     This component lives inside our window, and this is where you should put all
     your controls and content.
 */
-class MainComponent final : public juce::Component, public juce::Button::Listener {
+class MainComponent final : public juce::Component, public juce::Button::Listener, public juce::Slider::Listener {
 public:
     //==============================================================================
     explicit MainComponent(Settings::Settings &settings);
@@ -32,11 +32,17 @@ public:
 
     void buttonClicked(juce::Button *) override;
 
+    void sliderValueChanged(juce::Slider *) override;
+
 private:
+    Settings::Settings &m_settings;
+
     juce::AudioDeviceManager m_audioDeviceManager;
     juce::TextButton m_showAudioDeviceSelectorWindowButton{"Audio settings"};
     AudioDeviceSelectorWindow *m_audioDeviceSelectorWindow = nullptr;
     AudioCallback m_audioCallback;
+
+    juce::Slider m_volumeSlider;
 
     TrackComponent m_trackComponents[4];
 

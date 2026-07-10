@@ -17,8 +17,14 @@ public:
 
     void setTrack(Track *track, int n);
 
+    void setMasterVolume(double masterVolumeDb);
+
+    [[nodiscard]] double masterVolume() const;
+
 private:
     Clock m_clock;
 
     Track *m_tracks[4] = {nullptr, nullptr, nullptr, nullptr};
+
+    double m_masterVolume = -12.0;
 };

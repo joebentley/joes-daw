@@ -176,15 +176,17 @@ namespace Settings {
     NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(Track, muted, sequencer, synth)
 
     struct Settings {
+        double masterVolume;
         Track trackSettings[4];
 
         static Settings standard() {
             return {
-                {Track::standard(), Track::standard(), Track::standard(), Track::standard()}
+                .masterVolume = -12.0,
+                .trackSettings = {Track::standard(), Track::standard(), Track::standard(), Track::standard()}
             };
         }
 
-        NLOHMANN_DEFINE_TYPE_INTRUSIVE(Settings, trackSettings)
+        NLOHMANN_DEFINE_TYPE_INTRUSIVE(Settings, masterVolume, trackSettings)
 
         static Settings loadFromSettingsFile();
 
