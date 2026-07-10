@@ -2,13 +2,14 @@
 #include <juce_gui_basics/juce_gui_basics.h>
 
 #include "DeviceContainerComponent.h"
+#include "Settings.h"
 #include "SynthComponent.h"
 #include "Track.h"
 
 
 class SynthContainerComponent : public DeviceContainerComponent, public juce::ComboBox::Listener {
 public:
-    SynthContainerComponent(Track &trackToInitialise);
+    SynthContainerComponent(Track &trackToInitialise, Settings::Synth &settings);
 
     ~SynthContainerComponent() override;
 
@@ -26,9 +27,13 @@ public:
     void comboBoxChanged(juce::ComboBox *comboBoxThatHasChanged) override;
 
 private:
+    Settings::Synth &m_settings;
+
     SynthComponent *m_synthComponent;
 
     Listener *m_listener = nullptr;
 
     bool m_firstCall = true;
+
+    SynthComponent *createInitialSynthComponent() const;
 };

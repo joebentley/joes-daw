@@ -1,8 +1,16 @@
 #include "MainComponent.h"
 
+#include "SettingsSingleton.h"
+
 
 //==============================================================================
-MainComponent::MainComponent() {
+MainComponent::MainComponent(Settings::Settings &settings)
+    : m_trackComponents{
+        settings.trackSettings[0],
+        settings.trackSettings[1],
+        settings.trackSettings[2],
+        settings.trackSettings[3]
+    } {
     addAndMakeVisible(m_showAudioDeviceSelectorWindowButton);
     m_showAudioDeviceSelectorWindowButton.addListener(this);
 
@@ -22,6 +30,8 @@ MainComponent::~MainComponent() {
         delete m_audioDeviceSelectorWindow;
 
     m_audioDeviceManager.removeAudioCallback(&m_audioCallback);
+
+    SettingsSingleton::getInstance()->clearSingletonInstance();
 }
 
 //==============================================================================

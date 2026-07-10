@@ -1,11 +1,12 @@
 #pragma once
 
 #include "NoiseSynth.h"
+#include "../Settings.h"
 #include "../SynthComponent.h"
 
 class NoiseSynthComponent : public SynthComponent, public juce::Slider::Listener {
 public:
-    NoiseSynthComponent();
+    explicit NoiseSynthComponent(Settings::NoiseSynth &settings);
 
     void resized() override;
 
@@ -14,6 +15,8 @@ public:
     void sliderValueChanged(juce::Slider *) override;
 
 private:
+    Settings::NoiseSynth &m_settings;
+    
     NoiseSynth m_synth;
 
     juce::Slider m_decayRateSlider;

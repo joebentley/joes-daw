@@ -1,0 +1,193 @@
+#pragma once
+
+#include <exception>
+#include <juce_core/juce_core.h>
+#include <nlohmann/json.hpp>
+
+using nlohmann::json;
+
+struct SettingsLoadException : std::exception {
+    juce::String message;
+
+    const char *what() const noexcept override {
+        return (juce::String("Failed to load settings: ") + message).toRawUTF8();
+    }
+};
+
+
+namespace Settings {
+    enum class SequencerType {
+        RANDOM_SEQUENCER, REPEATING_SEQUENCER
+    };
+
+    NLOHMANN_JSON_SERIALIZE_ENUM(SequencerType, {
+                                 {SequencerType::RANDOM_SEQUENCER, "RANDOM_SEQUENCER"},
+                                 {SequencerType::REPEATING_SEQUENCER, "REPEATING_SEQUENCER"}
+                                 })
+
+    struct RandomSequencer {
+        double lowRate;
+        double highRate;
+        int lowNote;
+        int highNote;
+    };
+
+    NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(RandomSequencer, lowRate, highRate, lowNote, highNote)
+
+    struct RepeatingSequencer {
+        double rate;
+        double note;
+    };
+
+    NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(RepeatingSequencer, rate, note)
+
+    struct Sequencer {
+        SequencerType type;
+
+        union {
+            RandomSequencer randomSequencer;
+            RepeatingSequencer repeatingSequencer;
+        };
+
+        static Sequencer standard() {
+            return {
+                .type = SequencerType::REPEATING_SEQUENCER,
+                .repeatingSequencer = {
+                    .rate = 1.0,
+                    .note = 60.0
+                }
+            };
+        }
+    };
+
+    inline void to_json(json &j, const Sequencer &sequencer) {
+        json jsonSequencerType;
+        to_json(jsonSequencerType, sequencer.type);
+
+        json jsonSequencerSettings;
+        switch (sequencer.type) {
+            case SequencerType::RANDOM_SEQUENCER:
+                to_json(jsonSequencerSettings, sequencer.randomSequencer);
+                break;
+            case SequencerType::REPEATING_SEQUENCER:
+                to_json(jsonSequencerSettings, sequencer.repeatingSequencer);
+                break;
+        }
+
+        j = json({{"type", jsonSequencerType}, {"settings", jsonSequencerSettings}});
+    }
+
+    inline void from_json(const json &j, Sequencer &sequencer) {
+        from_json(j.at("type"), sequencer.type);
+
+        switch (sequencer.type) {
+            case SequencerType::RANDOM_SEQUENCER:
+                from_json(j.at("settings"), sequencer.randomSequencer);
+                break;
+            case SequencerType::REPEATING_SEQUENCER:
+                from_json(j.at("settings"), sequencer.repeatingSequencer);
+                break;
+        }
+    }
+
+    enum class SynthType {
+        PING_SYNTH, NOISE_SYNTH
+    };
+
+    NLOHMANN_JSON_SERIALIZE_ENUM(SynthType, {
+                                 {SynthType::PING_SYNTH, "PING_SYNTH"},
+                                 {SynthType::NOISE_SYNTH, "NOISE_SYNTH"}
+                                 })
+
+    struct PingSynth {
+        double decayRate;
+    };
+
+    NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(PingSynth, decayRate)
+
+    struct NoiseSynth {
+        double decayRate;
+    };
+
+    NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(NoiseSynth, decayRate)
+
+    struct Synth {
+        SynthType type;
+
+        union {
+            PingSynth pingSynth;
+            NoiseSynth noiseSynth;
+        };
+
+        static Synth standard() {
+            return {
+                .type = SynthType::PING_SYNTH,
+                .pingSynth = {
+                    .decayRate = 10.0
+                }
+            };
+        }
+    };
+
+    inline void to_json(json &j, const Synth &synth) {
+        json jsonSynthType;
+        to_json(jsonSynthType, synth.type);
+
+        json jsonSynthSettings;
+        switch (synth.type) {
+            case SynthType::PING_SYNTH:
+                to_json(jsonSynthSettings, synth.pingSynth);
+                break;
+            case SynthType::NOISE_SYNTH:
+                to_json(jsonSynthSettings, synth.noiseSynth);
+                break;
+        }
+
+        j = json({{"type", jsonSynthType}, {"settings", jsonSynthSettings}});
+    }
+
+    inline void from_json(const json &j, Synth &synth) {
+        from_json(j.at("type"), synth.type);
+
+        switch (synth.type) {
+            case SynthType::PING_SYNTH:
+                from_json(j.at("settings"), synth.pingSynth);
+                break;
+            case SynthType::NOISE_SYNTH:
+                from_json(j.at("settings"), synth.noiseSynth);
+                break;
+        }
+    }
+
+    struct Track {
+        bool muted;
+        Sequencer sequencer;
+        Synth synth;
+
+        static Track standard() {
+            return {
+                .muted = true,
+                .sequencer = Sequencer::standard(),
+                .synth = Synth::standard()
+            };
+        }
+    };
+
+    NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(Track, muted, sequencer, synth)
+
+    struct Settings {
+        Track trackSettings[4];
+
+        static Settings standard() {
+            return {
+                {Track::standard(), Track::standard(), Track::standard(), Track::standard()}
+            };
+        }
+
+        NLOHMANN_DEFINE_TYPE_INTRUSIVE(Settings, trackSettings)
+
+        static Settings loadFromSettingsFile();
+
+        void save() const;
+    };
+}

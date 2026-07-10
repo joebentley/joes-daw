@@ -1,11 +1,12 @@
 #pragma once
 
 #include "PingSynth.h"
+#include "../Settings.h"
 #include "../SynthComponent.h"
 
 class PingSynthComponent : public SynthComponent, public juce::Slider::Listener {
 public:
-    PingSynthComponent();
+    explicit PingSynthComponent(Settings::PingSynth &settings);
 
     void resized() override;
 
@@ -14,6 +15,8 @@ public:
     void sliderValueChanged(juce::Slider *) override;
 
 private:
+    Settings::PingSynth &m_settings;
+
     PingSynth m_synth;
 
     juce::Slider m_decaySlider;

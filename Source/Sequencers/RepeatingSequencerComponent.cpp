@@ -1,6 +1,12 @@
 #include "RepeatingSequencerComponent.h"
 
-RepeatingSequencerComponent::RepeatingSequencerComponent() {
+#include "../SettingsSingleton.h"
+
+RepeatingSequencerComponent::RepeatingSequencerComponent(
+    Settings::RepeatingSequencer &settings) : m_settings(settings) {
+    m_sequencer.setRate(settings.rate);
+    m_sequencer.setNote(settings.note);
+
     addAndMakeVisible(m_rateSlider);
     m_rateSlider.setRange(0.05, 10.0, 0.01);
     m_rateSlider.setSliderStyle(juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag);
@@ -22,8 +28,13 @@ void RepeatingSequencerComponent::resized() {
 }
 
 void RepeatingSequencerComponent::sliderValueChanged(juce::Slider *slider) {
-    if (slider == &m_rateSlider)
+    if (slider == &m_rateSlider) {
         m_sequencer.setRate(slider->getValue());
-    else if (slider == &m_noteSlider)
+        m_settings.rate = slider->getValue();
+        SettingsSingleton::getInstance()->save();
+    } else if (slider == &m_noteSlider) {
         m_sequencer.setNote(slider->getValue());
+        m_settings.note = slider->getValue();
+        SettingsSingleton::getInstance()->save();
+    }
 }

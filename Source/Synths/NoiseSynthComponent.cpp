@@ -1,6 +1,10 @@
 #include "NoiseSynthComponent.h"
 
-NoiseSynthComponent::NoiseSynthComponent() {
+#include "../SettingsSingleton.h"
+
+NoiseSynthComponent::NoiseSynthComponent(Settings::NoiseSynth &settings) : m_settings(settings) {
+    m_synth.setDecayRate(settings.decayRate);
+
     addAndMakeVisible(m_decayRateSlider);
     m_decayRateSlider.setRange(0.1, 30.0, 0.1);
     m_decayRateSlider.setSliderStyle(juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag);
@@ -16,4 +20,6 @@ void NoiseSynthComponent::resized() {
 
 void NoiseSynthComponent::sliderValueChanged(juce::Slider *slider) {
     m_synth.setDecayRate(slider->getValue());
+    m_settings.decayRate = slider->getValue();
+    SettingsSingleton::getInstance()->save();
 }

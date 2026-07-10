@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 3.22)
 
 project(DAW VERSION 0.0.1)
 
+set(CMAKE_CXX_STANDARD 20)
+
 add_subdirectory(JUCE)
 add_subdirectory(json)
 
@@ -18,6 +20,8 @@ juce_add_gui_app(daw
 target_sources(daw
     PRIVATE
         Source/Main.cpp
+        Source/Settings.cpp
+        Source/SettingsSingleton.cpp
         Source/MainComponent.cpp
         Source/AudioDeviceSelectorWindow.cpp
         Source/AudioCallback.cpp

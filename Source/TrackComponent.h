@@ -3,6 +3,7 @@
 #include <juce_gui_basics/juce_gui_basics.h>
 
 #include "SequencerContainerComponent.h"
+#include "Settings.h"
 #include "SynthComponent.h"
 #include "SynthContainerComponent.h"
 #include "Track.h"
@@ -11,7 +12,7 @@
 class TrackComponent : public juce::Component, public juce::Button::Listener,
                        SequencerContainerComponent::Listener, SynthContainerComponent::Listener {
 public:
-    TrackComponent();
+    TrackComponent(Settings::Track &settings);
 
     void resized() override;
 
@@ -26,6 +27,8 @@ public:
     }
 
 private:
+    Settings::Track &m_settings;
+
     Track m_track;
 
     SequencerContainerComponent m_sequencerContainerComponent;

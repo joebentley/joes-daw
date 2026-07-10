@@ -2,10 +2,11 @@
 
 #include "RandomSequencer.h"
 #include "../SequencerComponent.h"
+#include "../Settings.h"
 
 class RandomSequencerComponent : public SequencerComponent, juce::Slider::Listener {
 public:
-    RandomSequencerComponent();
+    explicit RandomSequencerComponent(Settings::RandomSequencer &settings);
 
     void resized() override;
 
@@ -14,6 +15,8 @@ public:
     void sliderValueChanged(juce::Slider *) override;
 
 private:
+    Settings::RandomSequencer &m_settings;
+
     RandomSequencer m_sequencer;
 
     juce::Slider m_lowRateSlider;

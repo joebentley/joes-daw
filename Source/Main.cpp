@@ -1,4 +1,6 @@
 #include "MainComponent.h"
+#include "Settings.h"
+#include "SettingsSingleton.h"
 
 //==============================================================================
 class GuiAppApplication final : public juce::JUCEApplication {
@@ -55,7 +57,9 @@ public:
                              .findColour(backgroundColourId),
                              allButtons) {
             setUsingNativeTitleBar(true);
-            setContentOwned(new MainComponent(), true);
+
+            Settings::Settings &settings = SettingsSingleton::getInstance()->settings;
+            setContentOwned(new MainComponent(settings), true);
 
 #if JUCE_IOS || JUCE_ANDROID
             setFullScreen(true);

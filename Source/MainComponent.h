@@ -21,7 +21,7 @@
 class MainComponent final : public juce::Component, public juce::Button::Listener {
 public:
     //==============================================================================
-    MainComponent();
+    explicit MainComponent(Settings::Settings &settings);
 
     ~MainComponent() override;
 

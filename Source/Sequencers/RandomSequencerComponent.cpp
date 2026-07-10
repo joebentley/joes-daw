@@ -1,6 +1,13 @@
 #include "RandomSequencerComponent.h"
 
-RandomSequencerComponent::RandomSequencerComponent() {
+#include "../SettingsSingleton.h"
+
+RandomSequencerComponent::RandomSequencerComponent(Settings::RandomSequencer &settings) : m_settings(settings) {
+    m_sequencer.setLowNote(settings.lowNote);
+    m_sequencer.setHighNote(settings.highNote);
+    m_sequencer.setLowRate(settings.lowRate);
+    m_sequencer.setHighRate(settings.highRate);
+
     addAndMakeVisible(m_highRateSlider);
     m_highRateSlider.setRange(0.05, 10.0, 0.01);
     m_highRateSlider.setSliderStyle(juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag);
@@ -47,6 +54,9 @@ void RandomSequencerComponent::sliderValueChanged(juce::Slider *slider) {
 
         m_sequencer.setHighRate(high);
         m_sequencer.setLowRate(low);
+        m_settings.highRate = high;
+        m_settings.lowRate = low;
+        SettingsSingleton::getInstance()->save();
     }
 
     if (slider == &m_lowNoteSlider || slider == &m_highNoteSlider) {
@@ -55,5 +65,8 @@ void RandomSequencerComponent::sliderValueChanged(juce::Slider *slider) {
 
         m_sequencer.setHighNote(high);
         m_sequencer.setLowNote(low);
+        m_settings.highNote = high;
+        m_settings.lowNote = low;
+        SettingsSingleton::getInstance()->save();
     }
 }

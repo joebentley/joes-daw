@@ -1,9 +1,15 @@
 #include "TrackComponent.h"
 
-TrackComponent::TrackComponent() : m_sequencerContainerComponent(m_track), m_synthContainerComponent(m_track) {
+#include "SettingsSingleton.h"
+
+TrackComponent::TrackComponent(Settings::Track &settings)
+    : m_settings(settings),
+      m_sequencerContainerComponent(m_track, settings.sequencer),
+      m_synthContainerComponent(m_track, settings.synth) {
     addAndMakeVisible(m_mutedButton);
     m_mutedButton.addListener(this);
-    m_mutedButton.setToggleState(false, juce::NotificationType::dontSendNotification);
+    m_mutedButton.setToggleState(settings.muted, juce::NotificationType::dontSendNotification);
+    m_track.setMuted(settings.muted);
 
     addAndMakeVisible(m_sequencerContainerComponent);
     addAndMakeVisible(m_synthContainerComponent);
@@ -26,6 +32,8 @@ void TrackComponent::resized() {
 void TrackComponent::buttonClicked(juce::Button *button) {
     if (button == &m_mutedButton) {
         m_track.setMuted(!m_track.muted());
+        m_settings.muted = m_track.muted();
+        SettingsSingleton::getInstance()->save();
     }
 }
 
