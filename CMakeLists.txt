@@ -39,7 +39,11 @@ target_sources(daw
         Source/Synths/PingSynth.cpp
         Source/Synths/PingSynthComponent.cpp
         Source/Synths/NoiseSynth.cpp
-        Source/Synths/NoiseSynthComponent.cpp)
+        Source/Synths/NoiseSynthComponent.cpp
+        Source/Synths/SamplerSynth.cpp
+        Source/Synths/SamplerSynthComponent.cpp
+        Source/Synths/DrumSampleSynth.cpp
+        Source/Synths/DrumSampleSynthComponent.cpp)
 
 target_compile_definitions(daw
     PRIVATE

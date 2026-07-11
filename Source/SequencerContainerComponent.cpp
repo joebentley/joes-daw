@@ -59,14 +59,16 @@ void SequencerContainerComponent::comboBoxChanged(juce::ComboBox *comboBoxThatHa
 
     if (text == "RepeatingSequencer") {
         m_settings.type = Settings::SequencerType::REPEATING_SEQUENCER;
-        m_settings.repeatingSequencer = Settings::RepeatingSequencer{.rate = 1.0, .note = 60.0};
-        m_sequencerComponent = new RepeatingSequencerComponent(m_settings.repeatingSequencer);
+        auto settings = Settings::RepeatingSequencer{.rate = 1.0, .note = 60.0};
+        m_settings.settings = settings;
+        m_sequencerComponent = new RepeatingSequencerComponent(settings);
     } else if (text == "RandomSequencer") {
         m_settings.type = Settings::SequencerType::RANDOM_SEQUENCER;
-        m_settings.randomSequencer = Settings::RandomSequencer{
+        auto settings = Settings::RandomSequencer{
             .lowRate = 0.5, .highRate = 2.0, .lowNote = 40, .highNote = 80
         };
-        m_sequencerComponent = new RandomSequencerComponent(m_settings.randomSequencer);
+        m_settings.settings = settings;
+        m_sequencerComponent = new RandomSequencerComponent(settings);
     }
     SettingsSingleton::getInstance()->save();
 
@@ -82,9 +84,9 @@ void SequencerContainerComponent::comboBoxChanged(juce::ComboBox *comboBoxThatHa
 SequencerComponent *SequencerContainerComponent::createInitialSequencerComponent() const {
     switch (m_settings.type) {
         case Settings::SequencerType::REPEATING_SEQUENCER:
-            return new RepeatingSequencerComponent(m_settings.repeatingSequencer);
+            return new RepeatingSequencerComponent(std::get<Settings::RepeatingSequencer>(m_settings.settings));
         case Settings::SequencerType::RANDOM_SEQUENCER:
-            return new RandomSequencerComponent(m_settings.randomSequencer);
+            return new RandomSequencerComponent(std::get<Settings::RandomSequencer>(m_settings.settings));
     }
     jassertfalse;
     return nullptr;

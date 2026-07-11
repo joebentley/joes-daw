@@ -4,12 +4,14 @@
 #include <juce_core/juce_core.h>
 #include <nlohmann/json.hpp>
 
+#include "Settings.h"
+
 using nlohmann::json;
 
 struct SettingsLoadException : std::exception {
     juce::String message;
 
-    const char *what() const noexcept override {
+    [[nodiscard]] const char *what() const noexcept override {
         return (juce::String("Failed to load settings: ") + message).toRawUTF8();
     }
 };
@@ -44,15 +46,12 @@ namespace Settings {
     struct Sequencer {
         SequencerType type;
 
-        union {
-            RandomSequencer randomSequencer;
-            RepeatingSequencer repeatingSequencer;
-        };
+        std::variant<RandomSequencer, RepeatingSequencer> settings;
 
         static Sequencer standard() {
             return {
                 .type = SequencerType::REPEATING_SEQUENCER,
-                .repeatingSequencer = {
+                .settings = RepeatingSequencer{
                     .rate = 1.0,
                     .note = 60.0
                 }
@@ -67,10 +66,10 @@ namespace Settings {
         json jsonSequencerSettings;
         switch (sequencer.type) {
             case SequencerType::RANDOM_SEQUENCER:
-                to_json(jsonSequencerSettings, sequencer.randomSequencer);
+                to_json(jsonSequencerSettings, std::get<RandomSequencer>(sequencer.settings));
                 break;
             case SequencerType::REPEATING_SEQUENCER:
-                to_json(jsonSequencerSettings, sequencer.repeatingSequencer);
+                to_json(jsonSequencerSettings, std::get<RepeatingSequencer>(sequencer.settings));
                 break;
         }
 
@@ -82,21 +81,27 @@ namespace Settings {
 
         switch (sequencer.type) {
             case SequencerType::RANDOM_SEQUENCER:
-                from_json(j.at("settings"), sequencer.randomSequencer);
+                RandomSequencer randomSequencer;
+                j.at("settings").get_to(randomSequencer);
+                sequencer.settings = randomSequencer;
                 break;
             case SequencerType::REPEATING_SEQUENCER:
-                from_json(j.at("settings"), sequencer.repeatingSequencer);
+                RepeatingSequencer repeatingSequencer;
+                j.at("settings").get_to(repeatingSequencer);
+                sequencer.settings = repeatingSequencer;
                 break;
         }
     }
 
     enum class SynthType {
-        PING_SYNTH, NOISE_SYNTH
+        PING_SYNTH, NOISE_SYNTH, SAMPLER_SYNTH, DRUM_SAMPLE_SYNTH
     };
 
     NLOHMANN_JSON_SERIALIZE_ENUM(SynthType, {
                                  {SynthType::PING_SYNTH, "PING_SYNTH"},
-                                 {SynthType::NOISE_SYNTH, "NOISE_SYNTH"}
+                                 {SynthType::NOISE_SYNTH, "NOISE_SYNTH"},
+                                 {SynthType::SAMPLER_SYNTH, "SAMPLER_SYNTH"},
+                                 {SynthType::DRUM_SAMPLE_SYNTH, "DRUM_SAMPLE_SYNTH"}
                                  })
 
     struct PingSynth {
@@ -111,18 +116,28 @@ namespace Settings {
 
     NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(NoiseSynth, decayRate)
 
+    struct SamplerSynth {
+        std::string sample;
+    };
+
+    NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(SamplerSynth, sample)
+
+    struct DrumSampleSynth {
+        std::string drumSample[4];
+    };
+
+
+    NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(DrumSampleSynth, drumSample)
+
     struct Synth {
         SynthType type;
 
-        union {
-            PingSynth pingSynth;
-            NoiseSynth noiseSynth;
-        };
+        std::variant<PingSynth, NoiseSynth, SamplerSynth, DrumSampleSynth> settings;
 
         static Synth standard() {
             return {
                 .type = SynthType::PING_SYNTH,
-                .pingSynth = {
+                .settings = PingSynth{
                     .decayRate = 10.0
                 }
             };
@@ -136,10 +151,16 @@ namespace Settings {
         json jsonSynthSettings;
         switch (synth.type) {
             case SynthType::PING_SYNTH:
-                to_json(jsonSynthSettings, synth.pingSynth);
+                to_json(jsonSynthSettings, std::get<PingSynth>(synth.settings));
                 break;
             case SynthType::NOISE_SYNTH:
-                to_json(jsonSynthSettings, synth.noiseSynth);
+                to_json(jsonSynthSettings, std::get<NoiseSynth>(synth.settings));
+                break;
+            case SynthType::SAMPLER_SYNTH:
+                to_json(jsonSynthSettings, std::get<SamplerSynth>(synth.settings));
+                break;
+            case SynthType::DRUM_SAMPLE_SYNTH:
+                to_json(jsonSynthSettings, std::get<PingSynth>(synth.settings));
                 break;
         }
 
@@ -150,17 +171,35 @@ namespace Settings {
         from_json(j.at("type"), synth.type);
 
         switch (synth.type) {
-            case SynthType::PING_SYNTH:
-                from_json(j.at("settings"), synth.pingSynth);
+            case SynthType::PING_SYNTH: {
+                PingSynth pingSynth;
+                j.at("settings").get_to(pingSynth);
+                synth.settings = pingSynth;
                 break;
-            case SynthType::NOISE_SYNTH:
-                from_json(j.at("settings"), synth.noiseSynth);
+            }
+            case SynthType::NOISE_SYNTH: {
+                NoiseSynth noiseSynth;
+                j.at("settings").get_to(noiseSynth);
+                synth.settings = noiseSynth;
                 break;
+            }
+            case SynthType::SAMPLER_SYNTH: {
+                SamplerSynth samplerSynth;
+                j.at("settings").get_to(samplerSynth);
+                synth.settings = samplerSynth;
+                break;
+            }
+            case SynthType::DRUM_SAMPLE_SYNTH: {
+                DrumSampleSynth drumSampleSynth;
+                j.at("settings").get_to(drumSampleSynth);
+                synth.settings = drumSampleSynth;
+                break;
+            }
         }
     }
 
     struct Track {
-        bool muted;
+        bool muted{};
         Sequencer sequencer;
         Synth synth;
 
@@ -176,7 +215,7 @@ namespace Settings {
     NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(Track, muted, sequencer, synth)
 
     struct Settings {
-        double masterVolume;
+        double masterVolume{};
         Track trackSettings[4];
 
         static Settings standard() {
