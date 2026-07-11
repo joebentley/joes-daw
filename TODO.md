@@ -1,7 +1,14 @@
-## Epics
+# Tasks
 
-- [ ] Opening and saving different settings files
+## Audio
+
 - [ ] Step sequencer
-- [ ] More useful synths
+- [ ] Sample-based drum rack
+- [ ] Subtractive synth
+
+## DAW
+
 - [ ] Patterns and timeline
+- [ ] Saving settings in projects
+- [ ] Consolidate samples in project
 - [ ] Custom style
