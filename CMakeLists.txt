@@ -21,6 +21,7 @@ target_sources(daw
     PRIVATE
         Source/Main.cpp
         Source/Settings.cpp
+        Source/Settings.h
         Source/SettingsSingleton.cpp
         Source/MainComponent.cpp
         Source/AudioDeviceSelectorWindow.cpp
