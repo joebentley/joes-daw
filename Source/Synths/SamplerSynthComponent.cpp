@@ -3,7 +3,13 @@
 #include "../SettingsSingleton.h"
 
 SamplerSynthComponent::SamplerSynthComponent(Settings::SamplerSynth &settings) : m_settings(settings) {
-    m_samplerSynth.setFile(juce::File(settings.sample));
+    if (const auto file = juce::File(settings.sample); file.existsAsFile()) {
+        m_samplerSynth.setFile(file);
+    } else {
+        // TODO: rather than wiping user settings, we should display some feedback
+        settings.sample = "";
+        SettingsSingleton::getInstance()->save();
+    }
 
     addAndMakeVisible(m_sampleFilePathTextEditor);
     m_sampleFilePathTextEditor.setReadOnly(true);
