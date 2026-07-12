@@ -31,6 +31,12 @@ void AudioCallback::audioDeviceIOCallbackWithContext(const float *const *, int,
                 }
             }
             mixed *= static_cast<float>(juce::Decibels::decibelsToGain(m_masterVolume));
+
+            // Hard limiter. Won't protect against NaN, etc.
+            if (mixed > 1.0) {
+                mixed = 1.0;
+            }
+
             toFill.setSample(channel, sample, mixed);
         }
     }
