@@ -1,5 +1,41 @@
 #include "AudioCallback.h"
 
+inline void protectYourEars(float *buffer, int sampleCount) {
+    if (buffer == nullptr) { return; }
+    bool firstWarning = true;
+    for (int i = 0; i < sampleCount; ++i) {
+        float x = buffer[i];
+        bool silence = false;
+        if (std::isnan(x)) {
+            DBG("!!! WARNING: nan detected in audio buffer, silencing !!!");
+            silence = true;
+        } else if (std::isinf(x)) {
+            DBG("!!! WARNING: inf detected in audio buffer, silencing !!!");
+            silence = true;
+        } else if (x < -2.0f || x > 2.0f) {
+            // screaming feedback
+            DBG("!!! WARNING: sample out of range, silencing !!!");
+            silence = true;
+        } else if (x < -1.0f) {
+            if (firstWarning) {
+                DBG("!!! WARNING: sample out of range, clamping !!!");
+                firstWarning = false;
+            }
+            buffer[i] = -1.0f;
+        } else if (x > 1.0f) {
+            if (firstWarning) {
+                DBG("!!! WARNING: sample out of range, clamping !!!");
+                firstWarning = false;
+            }
+            buffer[i] = 1.0f;
+        }
+        if (silence) {
+            memset(buffer, 0, sampleCount * sizeof(float));
+            return;
+        }
+    }
+}
+
 
 void AudioCallback::audioDeviceIOCallbackWithContext(const float *const *, int,
                                                      float *const *outputChannelData, int numOutputChannels,
@@ -13,6 +49,7 @@ void AudioCallback::audioDeviceIOCallbackWithContext(const float *const *, int,
     }
 
     juce::AudioBuffer toFill(outputChannelData, numOutputChannels, numSamples);
+    toFill.clear();
 
     juce::Array<juce::AudioBuffer<float> > tracks;
 
@@ -41,6 +78,12 @@ void AudioCallback::audioDeviceIOCallbackWithContext(const float *const *, int,
         }
     }
 
+    const auto lchan = toFill.getWritePointer(0);
+    const auto rchan = toFill.getWritePointer(1);
+
+    protectYourEars(lchan, numSamples);
+    protectYourEars(rchan, numSamples);
+
     m_clock.addSampleCount(static_cast<uint64_t>(numSamples));
 }
 
@@ -62,5 +105,3 @@ void AudioCallback::setMasterVolume(const double masterVolumeDb) {
 double AudioCallback::masterVolume() const {
     return m_masterVolume;
 }
-
-
