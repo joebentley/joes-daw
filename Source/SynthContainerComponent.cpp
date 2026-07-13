@@ -62,19 +62,16 @@ void SynthContainerComponent::comboBoxChanged(juce::ComboBox *comboBoxThatHasCha
 
     if (text == "PingSynth") {
         m_settings.type = Settings::SynthType::PING_SYNTH;
-        auto settings = Settings::PingSynth{10.0};
-        m_settings.settings = settings;
-        m_synthComponent = new PingSynthComponent(settings);
+        m_settings.settings = Settings::PingSynth{10.0};
+        m_synthComponent = new PingSynthComponent(std::get<Settings::PingSynth>(m_settings.settings));
     } else if (text == "NoiseSynth") {
         m_settings.type = Settings::SynthType::NOISE_SYNTH;
-        auto settings = Settings::NoiseSynth{10.0};
-        m_settings.settings = settings;
-        m_synthComponent = new NoiseSynthComponent(settings);
+        m_settings.settings = Settings::NoiseSynth{10.0};
+        m_synthComponent = new NoiseSynthComponent(std::get<Settings::NoiseSynth>(m_settings.settings));
     } else if (text == "SamplerSynth") {
         m_settings.type = Settings::SynthType::SAMPLER_SYNTH;
-        auto settings = Settings::SamplerSynth{""};
-        m_settings.settings = settings;
-        m_synthComponent = new SamplerSynthComponent(settings);
+        m_settings.settings = Settings::SamplerSynth{""};
+        m_synthComponent = new SamplerSynthComponent(std::get<Settings::SamplerSynth>(m_settings.settings));
     }
     SettingsSingleton::getInstance()->save();
 

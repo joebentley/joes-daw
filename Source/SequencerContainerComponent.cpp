@@ -59,16 +59,15 @@ void SequencerContainerComponent::comboBoxChanged(juce::ComboBox *comboBoxThatHa
 
     if (text == "RepeatingSequencer") {
         m_settings.type = Settings::SequencerType::REPEATING_SEQUENCER;
-        auto settings = Settings::RepeatingSequencer{.rate = 1.0, .note = 60.0};
-        m_settings.settings = settings;
-        m_sequencerComponent = new RepeatingSequencerComponent(settings);
+        m_settings.settings = Settings::RepeatingSequencer{.rate = 1.0, .note = 60.0};
+        m_sequencerComponent = new RepeatingSequencerComponent(
+            std::get<Settings::RepeatingSequencer>(m_settings.settings));
     } else if (text == "RandomSequencer") {
         m_settings.type = Settings::SequencerType::RANDOM_SEQUENCER;
-        auto settings = Settings::RandomSequencer{
+        m_settings.settings = Settings::RandomSequencer{
             .lowRate = 0.5, .highRate = 2.0, .lowNote = 40, .highNote = 80
         };
-        m_settings.settings = settings;
-        m_sequencerComponent = new RandomSequencerComponent(settings);
+        m_sequencerComponent = new RandomSequencerComponent(std::get<Settings::RandomSequencer>(m_settings.settings));
     }
     SettingsSingleton::getInstance()->save();
 
