@@ -16,6 +16,15 @@ struct SettingsLoadException : std::exception {
     }
 };
 
+namespace juce {
+    inline void to_json(json &j, const juce::String &string) {
+        j = string.toRawUTF8();
+    }
+
+    inline void from_json(const json &j, juce::String &string) {
+        string = j.get<std::string>().c_str();
+    }
+}
 
 namespace Settings {
     enum class SequencerType {
@@ -117,13 +126,13 @@ namespace Settings {
     NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(NoiseSynth, decayRate)
 
     struct SamplerSynth {
-        std::string sample;
+        juce::String sample;
     };
 
     NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(SamplerSynth, sample)
 
     struct DrumSampleSynth {
-        std::string drumSample[4];
+        juce::String drumSample[4];
     };
 
 

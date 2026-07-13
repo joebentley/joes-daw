@@ -33,7 +33,7 @@ void SamplerSynthComponent::buttonClicked(juce::Button *) {
     m_sampleFileChooser->launchAsync(fileChooserFlags, [this](const juce::FileChooser &chooser) {
         if (const auto result = chooser.getResult(); result.exists()) {
             m_samplerSynth.setFile(result);
-            m_settings.sample = std::string(result.getFullPathName().toRawUTF8());
+            m_settings.sample = result.getFullPathName();
             m_sampleFilePathTextEditor.setText(result.getFullPathName());
             SettingsSingleton::getInstance()->save();
         }
