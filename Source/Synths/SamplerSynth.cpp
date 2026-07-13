@@ -50,5 +50,6 @@ void SamplerSynth::setFile(const juce::File &file) {
         m_samplePointer = 0;
         m_sampleBuffer.setSize(static_cast<int>(reader->numChannels), static_cast<int>(reader->lengthInSamples));
         reader->read(&m_sampleBuffer, 0, static_cast<int>(reader->lengthInSamples), 0, true, true);
+        delete reader;
     }
 }
