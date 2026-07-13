@@ -225,16 +225,19 @@ namespace Settings {
 
     struct Settings {
         double masterVolume{};
+        juce::String lastSampleDirectory{};
         Track trackSettings[4];
 
         static Settings standard() {
             return {
                 .masterVolume = -12.0,
+                .lastSampleDirectory = juce::File::getSpecialLocation(juce::File::userApplicationDataDirectory).
+                getFullPathName(),
                 .trackSettings = {Track::standard(), Track::standard(), Track::standard(), Track::standard()}
             };
         }
 
-        NLOHMANN_DEFINE_TYPE_INTRUSIVE(Settings, masterVolume, trackSettings)
+        NLOHMANN_DEFINE_TYPE_INTRUSIVE(Settings, masterVolume, lastSampleDirectory, trackSettings)
 
         static Settings loadFromSettingsFile();
 

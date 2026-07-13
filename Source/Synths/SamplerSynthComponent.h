@@ -23,9 +23,7 @@ private:
     juce::TextEditor m_sampleFilePathTextEditor;
     juce::TextButton m_sampleFileChooserButton;
 
-    std::unique_ptr<juce::FileChooser> m_sampleFileChooser = std::make_unique<juce::FileChooser>(
-        "Select sample...", juce::File::getSpecialLocation(juce::File::userHomeDirectory), "*"
-    );
+    std::unique_ptr<juce::FileChooser> m_sampleFileChooser;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(SamplerSynthComponent)
 };

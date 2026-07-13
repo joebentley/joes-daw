@@ -30,11 +30,19 @@ void SamplerSynthComponent::resized() {
 void SamplerSynthComponent::buttonClicked(juce::Button *) {
     constexpr auto fileChooserFlags = juce::FileBrowserComponent::openMode | juce::FileBrowserComponent::canSelectFiles;
 
-    m_sampleFileChooser->launchAsync(fileChooserFlags, [this](const juce::FileChooser &chooser) {
+    const auto settingsInstance = SettingsSingleton::getInstance();
+    m_sampleFileChooser = std::make_unique<juce::FileChooser>(
+        "Select sample...", settingsInstance->settings.lastSampleDirectory, "*"
+    );
+
+    m_sampleFileChooser->launchAsync(fileChooserFlags, [this, settingsInstance](const juce::FileChooser &chooser) {
         if (const auto result = chooser.getResult(); result.exists()) {
             m_samplerSynth.setFile(result);
             m_settings.sample = result.getFullPathName();
             m_sampleFilePathTextEditor.setText(result.getFullPathName());
+
+            settingsInstance->settings.lastSampleDirectory = result.getParentDirectory().getFullPathName();
+
             SettingsSingleton::getInstance()->save();
         }
     });
