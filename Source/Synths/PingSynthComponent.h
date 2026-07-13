@@ -20,4 +20,6 @@ private:
     PingSynth m_synth;
 
     juce::Slider m_decaySlider;
+
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(PingSynthComponent)
 };

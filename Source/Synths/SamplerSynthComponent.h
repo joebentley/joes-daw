@@ -26,5 +26,7 @@ private:
     std::unique_ptr<juce::FileChooser> m_sampleFileChooser = std::make_unique<juce::FileChooser>(
         "Select sample...", juce::File::getSpecialLocation(juce::File::userHomeDirectory), "*"
     );
+
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(SamplerSynthComponent)
 };
 

@@ -36,4 +36,6 @@ private:
     bool m_firstCall = true;
 
     SynthComponent *createInitialSynthComponent() const;
+
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(SynthContainerComponent)
 };

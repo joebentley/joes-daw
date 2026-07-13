@@ -34,4 +34,6 @@ private:
     bool m_firstCall = true;
 
     SequencerComponent *createInitialSequencerComponent() const;
+
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(SequencerContainerComponent)
 };

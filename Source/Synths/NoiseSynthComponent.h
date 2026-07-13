@@ -16,8 +16,10 @@ public:
 
 private:
     Settings::NoiseSynth &m_settings;
-    
+
     NoiseSynth m_synth;
 
     juce::Slider m_decayRateSlider;
+
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(NoiseSynthComponent)
 };

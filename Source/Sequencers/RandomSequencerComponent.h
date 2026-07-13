@@ -24,4 +24,6 @@ private:
 
     juce::Slider m_lowNoteSlider;
     juce::Slider m_highNoteSlider;
+
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(RandomSequencerComponent)
 };
