@@ -18,11 +18,13 @@ void ScrollingLabelComponent::timerCallback() {
     m_scroll += m_scrollDir;
 
     const float textWidth = juce::TextLayout::getStringWidth(juce::AttributedString(m_text));
-    const float scrollPos = abs(static_cast<float>(m_scroll));
+    const float scrollPos = static_cast<float>(m_scroll);
 
-    if (m_bounceBackAndForth && scrollPos > textWidth - static_cast<float>(getWidth()) + 5) {
+    if (m_bounceBackAndForth &&
+        (scrollPos < -textWidth + static_cast<float>(getWidth()) - 5
+         || scrollPos > static_cast<float>(getWidth()) + 5)) {
         m_scrollDir *= -1;
-    } else if (!m_bounceBackAndForth && scrollPos > textWidth) {
+    } else if (!m_bounceBackAndForth && scrollPos < -textWidth) {
         m_scroll = getWidth();
     }
 
