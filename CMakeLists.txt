@@ -43,7 +43,8 @@ target_sources(daw
         Source/DSP/Synths/SamplerSynth.cpp
         Source/UI/Synths/SamplerSynthComponent.cpp
         Source/DSP/Synths/DrumSampleSynth.cpp
-        Source/UI/Synths/DrumSampleSynthComponent.cpp)
+        Source/UI/Synths/DrumSampleSynthComponent.cpp
+        Source/UI/ScrollingLabelComponent.cpp)
 
 target_compile_definitions(daw
     PRIVATE

@@ -1,5 +1,6 @@
 #pragma once
 
+#include "../ScrollingLabelComponent.h"
 #include "../../DSP/Synths/SamplerSynth.h"
 #include "../../Settings.h"
 #include "../SynthComponent.h"
@@ -20,7 +21,7 @@ private:
 
     SamplerSynth m_samplerSynth;
 
-    juce::TextEditor m_sampleFilePathTextEditor;
+    ScrollingLabelComponent m_sampleFilePathScrollingLabel{"", true};
     juce::TextButton m_sampleFileChooserButton;
 
     std::unique_ptr<juce::FileChooser> m_sampleFileChooser;

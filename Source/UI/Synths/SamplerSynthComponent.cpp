@@ -11,9 +11,8 @@ SamplerSynthComponent::SamplerSynthComponent(Settings::SamplerSynth &settings) :
         SettingsSingleton::getInstance()->save();
     }
 
-    addAndMakeVisible(m_sampleFilePathTextEditor);
-    m_sampleFilePathTextEditor.setReadOnly(true);
-    m_sampleFilePathTextEditor.setText(settings.sample);
+    addAndMakeVisible(m_sampleFilePathScrollingLabel);
+    m_sampleFilePathScrollingLabel.setText(settings.sample);
 
     addAndMakeVisible(m_sampleFileChooserButton);
     m_sampleFileChooserButton.addListener(this);
@@ -21,7 +20,7 @@ SamplerSynthComponent::SamplerSynthComponent(Settings::SamplerSynth &settings) :
 }
 
 void SamplerSynthComponent::resized() {
-    m_sampleFilePathTextEditor.setBounds(5, 40, 120, 30);
+    m_sampleFilePathScrollingLabel.setBounds(5, 40, 120, 30);
     m_sampleFileChooserButton.setBounds(130, 40, 60, 30);
 
     SynthComponent::resized();
@@ -39,7 +38,7 @@ void SamplerSynthComponent::buttonClicked(juce::Button *) {
         if (const auto result = chooser.getResult(); result.exists()) {
             m_samplerSynth.setFile(result);
             m_settings.sample = result.getFullPathName();
-            m_sampleFilePathTextEditor.setText(result.getFullPathName());
+            m_sampleFilePathScrollingLabel.setText(result.getFullPathName());
 
             settingsInstance->settings.lastSampleDirectory = result.getParentDirectory().getFullPathName();
 
