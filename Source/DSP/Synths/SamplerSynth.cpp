@@ -7,7 +7,10 @@ SamplerSynth::SamplerSynth() {
 void SamplerSynth::renderNextBlock(const Clock &clock, const juce::Array<Event> &eventBuffer,
                                    juce::AudioBuffer<float> &toFill) {
     if (m_sampleBuffer.getNumSamples() == 0)
+    if (m_sampleBuffer.getNumSamples() == 0) {
+        toFill.clear();
         return;
+    }
 
     const auto lChanToFill = toFill.getWritePointer(0);
     const auto rChanToFill = toFill.getWritePointer(1);
