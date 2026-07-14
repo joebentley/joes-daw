@@ -208,20 +208,20 @@ namespace Settings {
     }
 
     struct Track {
-        bool muted{};
+        bool enabled{};
         Sequencer sequencer;
         Synth synth;
 
         static Track standard() {
             return {
-                .muted = true,
+                .enabled = false,
                 .sequencer = Sequencer::standard(),
                 .synth = Synth::standard()
             };
         }
     };
 
-    NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(Track, muted, sequencer, synth)
+    NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(Track, enabled, sequencer, synth)
 
     struct Settings {
         double masterVolume{};

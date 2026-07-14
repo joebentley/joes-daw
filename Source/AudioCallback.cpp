@@ -63,7 +63,7 @@ void AudioCallback::audioDeviceIOCallbackWithContext(const float *const *, int,
         for (int sample = 0; sample < numSamples; ++sample) {
             float mixed = 0.0;
             for (int i = 0; i < 4; ++i) {
-                if (!m_tracks[i]->muted()) {
+                if (m_tracks[i]->enabled()) {
                     mixed += tracks[i].getSample(channel, sample);
                 }
             }

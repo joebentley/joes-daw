@@ -34,7 +34,7 @@ private:
     SequencerContainerComponent m_sequencerContainerComponent;
     SynthContainerComponent m_synthContainerComponent;
 
-    juce::ToggleButton m_mutedButton;
+    juce::ToggleButton m_enabledButton;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(TrackComponent)
 };

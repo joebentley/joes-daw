@@ -6,10 +6,10 @@ TrackComponent::TrackComponent(Settings::Track &settings)
     : m_settings(settings),
       m_sequencerContainerComponent(m_track, settings.sequencer),
       m_synthContainerComponent(m_track, settings.synth) {
-    addAndMakeVisible(m_mutedButton);
-    m_mutedButton.addListener(this);
-    m_mutedButton.setToggleState(settings.muted, juce::NotificationType::dontSendNotification);
-    m_track.setMuted(settings.muted);
+    addAndMakeVisible(m_enabledButton);
+    m_enabledButton.addListener(this);
+    m_enabledButton.setToggleState(settings.enabled, juce::NotificationType::dontSendNotification);
+    m_track.setEnabled(settings.enabled);
 
     addAndMakeVisible(m_sequencerContainerComponent);
     addAndMakeVisible(m_synthContainerComponent);
@@ -22,7 +22,7 @@ void TrackComponent::resized() {
     constexpr int padding = 10;
     constexpr int size = 200;
 
-    m_mutedButton.setBounds(90, 20, 40, 40);
+    m_enabledButton.setBounds(90, 20, 40, 40);
 
     m_sequencerContainerComponent.setBounds(padding, padding + 50, size - padding, size - padding);
 
@@ -30,9 +30,9 @@ void TrackComponent::resized() {
 }
 
 void TrackComponent::buttonClicked(juce::Button *button) {
-    if (button == &m_mutedButton) {
-        m_track.setMuted(!m_track.muted());
-        m_settings.muted = m_track.muted();
+    if (button == &m_enabledButton) {
+        m_track.setEnabled(!m_track.enabled());
+        m_settings.enabled = m_track.enabled();
         SettingsSingleton::getInstance()->save();
     }
 }
