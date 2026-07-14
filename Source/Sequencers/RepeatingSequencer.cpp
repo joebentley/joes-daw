@@ -8,7 +8,7 @@ juce::Array<Event> RepeatingSequencer::generateEventsForTimes(double startTime, 
 
     if (m_lastEvent < 0.0) {
         m_lastEvent = startTime;
-        events.add(Event{startTime});
+        events.add(Event{startTime, m_note});
         return events;
     }
 

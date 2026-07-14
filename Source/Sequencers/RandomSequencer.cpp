@@ -13,7 +13,7 @@ juce::Array<Event> RandomSequencer::generateEventsForTimes(double startTime, dou
 
     if (m_lastEvent < 0.0) {
         m_lastEvent = startTime;
-        events.add(Event{startTime});
+        events.add(Event{startTime, static_cast<double>(m_note)});
         return events;
     }
 
