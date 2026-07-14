@@ -6,7 +6,10 @@ SamplerSynth::SamplerSynth() {
 
 void SamplerSynth::renderNextBlock(const Clock &clock, const juce::Array<Event> &eventBuffer,
                                    juce::AudioBuffer<float> &toFill) {
-    if (m_sampleBuffer.getNumSamples() == 0)
+    if (m_queuedSampleFile != m_sampleFile) {
+        loadSampleFile();
+    }
+
     if (m_sampleBuffer.getNumSamples() == 0) {
         toFill.clear();
         return;
@@ -53,9 +56,13 @@ void SamplerSynth::renderNextBlock(const Clock &clock, const juce::Array<Event> 
 }
 
 void SamplerSynth::setFile(const juce::File &file) {
-    m_sampleFile = file;
+    m_queuedSampleFile = file;
+}
 
-    if (file.existsAsFile()) {
+void SamplerSynth::loadSampleFile() {
+    m_sampleFile = m_queuedSampleFile;
+
+    if (m_sampleFile.existsAsFile()) {
         const auto reader = m_audioFormatManager.createReaderFor(m_sampleFile);
         m_samplePointer = 0;
         m_sampleBuffer.setSize(static_cast<int>(reader->numChannels), static_cast<int>(reader->lengthInSamples));
