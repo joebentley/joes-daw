@@ -24,21 +24,28 @@ void SamplerSynth::renderNextBlock(const Clock &clock, const juce::Array<Event> 
         const double t = clock.getTime(i);
 
         if (nextEventIndexToProcess < eventBuffer.size()) {
-            if (t > eventBuffer[nextEventIndexToProcess].time) {
+            auto event = eventBuffer[nextEventIndexToProcess];
+            if (t > event.time) {
                 m_samplePointer = 0;
+                m_samplePlaybackRate = rateFromMidiNote(event.midiNote);
                 nextEventIndexToProcess++;
             }
+        }
+
+        // For looping reverse play
+        if (m_samplePointer < 0.0) {
+            m_samplePointer = m_sampleBuffer.getNumSamples();
         }
 
         if (m_samplePointer > m_sampleBuffer.getNumSamples()) {
             lChanToFill[i] = 0.0;
             rChanToFill[i] = 0.0;
         } else {
-            lChanToFill[i] = lChanToSample[m_samplePointer];
-            rChanToFill[i] = rChanToSample[m_samplePointer];
+            lChanToFill[i] = lChanToSample[static_cast<int>(round(m_samplePointer))];
+            rChanToFill[i] = rChanToSample[static_cast<int>(round(m_samplePointer))];
         }
 
-        m_samplePointer++;
+        m_samplePointer += m_samplePlaybackRate;
     }
 }
 
@@ -52,4 +59,11 @@ void SamplerSynth::setFile(const juce::File &file) {
         reader->read(&m_sampleBuffer, 0, static_cast<int>(reader->lengthInSamples), 0, true, true);
         delete reader;
     }
+}
+
+double SamplerSynth::rateFromMidiNote(double midiNote) {
+    constexpr double scale = 10.0;
+
+    // rate 1.0 is MIDI note C = 60
+    return (midiNote - 60.0) / scale + 1.0;
 }

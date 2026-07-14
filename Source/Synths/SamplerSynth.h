@@ -17,9 +17,12 @@ private:
     juce::File m_sampleFile;
     juce::AudioBuffer<float> m_sampleBuffer;
 
-    int m_samplePointer = 0;
+    double m_samplePointer = 0.0;
+    double m_samplePlaybackRate = 1.0;
 
     double m_lastEventTime = 0.0;
     double m_decayRate = 10.0;
+
+    static double rateFromMidiNote(double midiNote);
 };
 
