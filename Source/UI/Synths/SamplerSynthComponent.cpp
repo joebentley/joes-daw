@@ -21,7 +21,7 @@ SamplerSynthComponent::SamplerSynthComponent(Settings::SamplerSynth &settings) :
 
 void SamplerSynthComponent::resized() {
     m_sampleFilePathScrollingLabel.setBounds(5, 0, 120, 30);
-    m_sampleFileChooserButton.setBounds(130, 0, 60, 30);
+    m_sampleFileChooserButton.setBounds(130, 4, 53, 22);
 
     SynthComponent::resized();
 }

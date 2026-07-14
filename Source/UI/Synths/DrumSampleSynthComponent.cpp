@@ -18,10 +18,8 @@ DrumSampleSynthComponent::DrumSampleSynthComponent(Settings::DrumSampleSynth &se
 }
 
 void DrumSampleSynthComponent::resized() {
-    m_samplerSynthComponent[0].setBounds(0, 0, 200, 30);
-    m_samplerSynthComponent[1].setBounds(0, 40, 200, 30);
-    m_samplerSynthComponent[2].setBounds(0, 80, 200, 30);
-    m_samplerSynthComponent[3].setBounds(0, 120, 200, 30);
+    for (int i = 0; i < 4; ++i)
+        m_samplerSynthComponent[i].setBounds(0, i * 35, 200, 30);
 
     SynthComponent::resized();
 }
