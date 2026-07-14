@@ -7,7 +7,6 @@ ScrollingLabelComponent::ScrollingLabelComponent(juce::String initialText, bool 
 }
 
 void ScrollingLabelComponent::paint(juce::Graphics &g) {
-    auto s = getBounds();
     g.setColour(juce::Colours::greenyellow);
     g.drawSingleLineText(m_text, m_scroll, 20, juce::Justification::left);
 }
