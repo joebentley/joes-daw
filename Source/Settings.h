@@ -169,7 +169,7 @@ namespace Settings {
                 to_json(jsonSynthSettings, std::get<SamplerSynth>(synth.settings));
                 break;
             case SynthType::DRUM_SAMPLE_SYNTH:
-                to_json(jsonSynthSettings, std::get<PingSynth>(synth.settings));
+                to_json(jsonSynthSettings, std::get<DrumSampleSynth>(synth.settings));
                 break;
         }
 
