@@ -13,7 +13,7 @@ NoiseSynthComponent::NoiseSynthComponent(Settings::NoiseSynth &settings) : m_set
 }
 
 void NoiseSynthComponent::resized() {
-    m_decayRateSlider.setBounds(10, 10, 180, 180);
+    m_decayRateSlider.setBounds(10, 0, 180, 110);
 
     SynthComponent::resized();
 }

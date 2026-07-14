@@ -1,6 +1,7 @@
 #include "SynthContainerComponent.h"
 
 #include "../SettingsSingleton.h"
+#include "Synths/DrumSampleSynthComponent.h"
 #include "Synths/NoiseSynthComponent.h"
 #include "Synths/PingSynthComponent.h"
 #include "Synths/SamplerSynthComponent.h"
@@ -11,6 +12,7 @@ SynthContainerComponent::SynthContainerComponent(Track &trackToInitialise,
     m_deviceTypeComboBox.addItem("PingSynth", 1);
     m_deviceTypeComboBox.addItem("NoiseSynth", 2);
     m_deviceTypeComboBox.addItem("SamplerSynth", 3);
+    m_deviceTypeComboBox.addItem("DrumSampleSynth", 4);
 
     switch (settings.type) {
         case Settings::SynthType::PING_SYNTH:
@@ -21,6 +23,9 @@ SynthContainerComponent::SynthContainerComponent(Track &trackToInitialise,
             break;
         case Settings::SynthType::SAMPLER_SYNTH:
             m_deviceTypeComboBox.setSelectedId(3);
+            break;
+        case Settings::SynthType::DRUM_SAMPLE_SYNTH:
+            m_deviceTypeComboBox.setSelectedId(4);
             break;
     }
 
@@ -36,7 +41,7 @@ SynthContainerComponent::~SynthContainerComponent() {
 }
 
 void SynthContainerComponent::resized() {
-    m_synthComponent->setBounds(0, 0, 200, 200);
+    m_synthComponent->setBounds(0, 40, 200, 160);
     DeviceContainerComponent::resized();
 }
 
@@ -72,6 +77,15 @@ void SynthContainerComponent::comboBoxChanged(juce::ComboBox *comboBoxThatHasCha
         m_settings.type = Settings::SynthType::SAMPLER_SYNTH;
         m_settings.settings = Settings::SamplerSynth{""};
         m_synthComponent = new SamplerSynthComponent(std::get<Settings::SamplerSynth>(m_settings.settings));
+    } else if (text == "DrumSampleSynth") {
+        m_settings.type = Settings::SynthType::DRUM_SAMPLE_SYNTH;
+        m_settings.settings = Settings::DrumSampleSynth{
+            Settings::SamplerSynth{""}, Settings::SamplerSynth{""}, Settings::SamplerSynth{""},
+            Settings::SamplerSynth{""}
+        };
+        m_synthComponent = new DrumSampleSynthComponent(std::get<Settings::DrumSampleSynth>(m_settings.settings));
+    } else {
+        jassertfalse;
     }
     SettingsSingleton::getInstance()->save();
 
@@ -92,6 +106,8 @@ SynthComponent *SynthContainerComponent::createInitialSynthComponent() const {
             return new NoiseSynthComponent(std::get<Settings::NoiseSynth>(m_settings.settings));
         case Settings::SynthType::SAMPLER_SYNTH:
             return new SamplerSynthComponent(std::get<Settings::SamplerSynth>(m_settings.settings));
+        case Settings::SynthType::DRUM_SAMPLE_SYNTH:
+            return new DrumSampleSynthComponent(std::get<Settings::DrumSampleSynth>(m_settings.settings));
     }
     jassertfalse;
     return nullptr;

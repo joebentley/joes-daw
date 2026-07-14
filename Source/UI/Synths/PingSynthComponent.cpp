@@ -13,7 +13,7 @@ PingSynthComponent::PingSynthComponent(Settings::PingSynth &settings) : m_settin
 }
 
 void PingSynthComponent::resized() {
-    m_decaySlider.setBounds(10, 10, 180, 180);
+    m_decaySlider.setBounds(10, 0, 180, 110);
 
     SynthComponent::resized();
 }

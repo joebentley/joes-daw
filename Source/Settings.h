@@ -132,9 +132,8 @@ namespace Settings {
     NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(SamplerSynth, sample)
 
     struct DrumSampleSynth {
-        juce::String drumSample[4];
+        SamplerSynth drumSample[4];
     };
-
 
     NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(DrumSampleSynth, drumSample)
 
