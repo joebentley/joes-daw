@@ -1,7 +1,7 @@
 #pragma once
 
-#include "NoiseSynth.h"
-#include "../Settings.h"
+#include "../../DSP/Synths/NoiseSynth.h"
+#include "../../Settings.h"
 #include "../SynthComponent.h"
 
 class NoiseSynthComponent : public SynthComponent, public juce::Slider::Listener {

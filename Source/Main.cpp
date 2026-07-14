@@ -1,4 +1,4 @@
-#include "MainComponent.h"
+#include "UI/MainComponent.h"
 #include "Settings.h"
 #include "SettingsSingleton.h"
 

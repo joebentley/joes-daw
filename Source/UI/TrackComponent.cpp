@@ -1,6 +1,6 @@
 #include "TrackComponent.h"
 
-#include "SettingsSingleton.h"
+#include "../SettingsSingleton.h"
 
 TrackComponent::TrackComponent(Settings::Track &settings)
     : m_settings(settings),

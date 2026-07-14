@@ -1,7 +1,7 @@
 #pragma once
 
-#include "PingSynth.h"
-#include "../Settings.h"
+#include "../../DSP/Synths/PingSynth.h"
+#include "../../Settings.h"
 #include "../SynthComponent.h"
 
 class PingSynthComponent : public SynthComponent, public juce::Slider::Listener {

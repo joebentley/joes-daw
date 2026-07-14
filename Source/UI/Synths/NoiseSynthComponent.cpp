@@ -1,6 +1,6 @@
 #include "NoiseSynthComponent.h"
 
-#include "../SettingsSingleton.h"
+#include "../../SettingsSingleton.h"
 
 NoiseSynthComponent::NoiseSynthComponent(Settings::NoiseSynth &settings) : m_settings(settings) {
     m_synth.setDecayRate(settings.decayRate);

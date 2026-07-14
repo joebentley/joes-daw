@@ -1,8 +1,8 @@
 #pragma once
 
-#include "RepeatingSequencer.h"
+#include "../../DSP/Sequencers/RepeatingSequencer.h"
 #include "../SequencerComponent.h"
-#include "../Settings.h"
+#include "../../Settings.h"
 
 class RepeatingSequencerComponent : public SequencerComponent, juce::Slider::Listener {
 public:

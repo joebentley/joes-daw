@@ -9,7 +9,7 @@
 #include <juce_gui_basics/juce_gui_basics.h>
 #include <juce_core/juce_core.h>
 
-#include "AudioCallback.h"
+#include "../DSP/AudioCallback.h"
 #include "AudioDeviceSelectorWindow.h"
 #include "TrackComponent.h"
 

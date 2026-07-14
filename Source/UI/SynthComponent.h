@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Synth.h"
+#include "../DSP/Synth.h"
 #include <juce_gui_basics/juce_gui_basics.h>
 
 class SynthComponent : public juce::Component {

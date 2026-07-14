@@ -1,6 +1,6 @@
 #include "SynthContainerComponent.h"
 
-#include "SettingsSingleton.h"
+#include "../SettingsSingleton.h"
 #include "Synths/NoiseSynthComponent.h"
 #include "Synths/PingSynthComponent.h"
 #include "Synths/SamplerSynthComponent.h"

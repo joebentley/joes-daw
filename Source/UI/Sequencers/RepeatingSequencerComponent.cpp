@@ -1,6 +1,6 @@
 #include "RepeatingSequencerComponent.h"
 
-#include "../SettingsSingleton.h"
+#include "../../SettingsSingleton.h"
 
 RepeatingSequencerComponent::RepeatingSequencerComponent(
     Settings::RepeatingSequencer &settings) : m_settings(settings) {

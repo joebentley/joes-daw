@@ -1,6 +1,6 @@
 #include "RandomSequencerComponent.h"
 
-#include "../SettingsSingleton.h"
+#include "../../SettingsSingleton.h"
 
 RandomSequencerComponent::RandomSequencerComponent(Settings::RandomSequencer &settings) : m_settings(settings) {
     m_sequencer.setLowNote(settings.lowNote);

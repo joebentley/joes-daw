@@ -1,6 +1,6 @@
 #include "MainComponent.h"
 
-#include "SettingsSingleton.h"
+#include "../SettingsSingleton.h"
 
 
 //==============================================================================

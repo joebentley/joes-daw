@@ -1,7 +1,7 @@
 #pragma once
 
-#include "SamplerSynth.h"
-#include "../Settings.h"
+#include "../../DSP/Synths/SamplerSynth.h"
+#include "../../Settings.h"
 #include "../SynthComponent.h"
 
 

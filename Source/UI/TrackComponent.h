@@ -3,10 +3,10 @@
 #include <juce_gui_basics/juce_gui_basics.h>
 
 #include "SequencerContainerComponent.h"
-#include "Settings.h"
+#include "../Settings.h"
 #include "SynthComponent.h"
 #include "SynthContainerComponent.h"
-#include "Track.h"
+#include "../DSP/Track.h"
 
 
 class TrackComponent : public juce::Component, public juce::Button::Listener,

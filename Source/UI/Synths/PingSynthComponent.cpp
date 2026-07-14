@@ -1,6 +1,6 @@
 #include "PingSynthComponent.h"
 
-#include "../SettingsSingleton.h"
+#include "../../SettingsSingleton.h"
 
 PingSynthComponent::PingSynthComponent(Settings::PingSynth &settings) : m_settings(settings) {
     addAndMakeVisible(m_decaySlider);

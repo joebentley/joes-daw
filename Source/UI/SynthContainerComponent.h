@@ -2,9 +2,9 @@
 #include <juce_gui_basics/juce_gui_basics.h>
 
 #include "DeviceContainerComponent.h"
-#include "Settings.h"
+#include "../Settings.h"
 #include "SynthComponent.h"
-#include "Track.h"
+#include "../DSP/Track.h"
 
 
 class SynthContainerComponent : public DeviceContainerComponent, public juce::ComboBox::Listener {

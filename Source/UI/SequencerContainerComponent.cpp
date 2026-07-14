@@ -1,6 +1,6 @@
 #include "SequencerContainerComponent.h"
 
-#include "SettingsSingleton.h"
+#include "../SettingsSingleton.h"
 #include "Sequencers/RandomSequencerComponent.h"
 #include "Sequencers/RepeatingSequencerComponent.h"
 

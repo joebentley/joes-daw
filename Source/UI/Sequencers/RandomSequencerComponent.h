@@ -1,8 +1,8 @@
 #pragma once
 
-#include "RandomSequencer.h"
+#include "../../DSP/Sequencers/RandomSequencer.h"
 #include "../SequencerComponent.h"
-#include "../Settings.h"
+#include "../../Settings.h"
 
 class RandomSequencerComponent : public SequencerComponent, juce::Slider::Listener {
 public:

@@ -23,27 +23,27 @@ target_sources(daw
         Source/Settings.cpp
         Source/Settings.h
         Source/SettingsSingleton.cpp
-        Source/MainComponent.cpp
-        Source/AudioDeviceSelectorWindow.cpp
-        Source/AudioCallback.cpp
-        Source/Clock.cpp
-        Source/Track.cpp
-        Source/TrackComponent.cpp
-        Source/DeviceContainerComponent.cpp
-        Source/SequencerContainerComponent.cpp
-        Source/Sequencers/RepeatingSequencer.cpp
-        Source/Sequencers/RepeatingSequencerComponent.cpp
-        Source/Sequencers/RandomSequencer.cpp
-        Source/Sequencers/RandomSequencerComponent.cpp
-        Source/SynthContainerComponent.cpp
-        Source/Synths/PingSynth.cpp
-        Source/Synths/PingSynthComponent.cpp
-        Source/Synths/NoiseSynth.cpp
-        Source/Synths/NoiseSynthComponent.cpp
-        Source/Synths/SamplerSynth.cpp
-        Source/Synths/SamplerSynthComponent.cpp
-        Source/Synths/DrumSampleSynth.cpp
-        Source/Synths/DrumSampleSynthComponent.cpp)
+        Source/UI/MainComponent.cpp
+        Source/UI/AudioDeviceSelectorWindow.cpp
+        Source/DSP/AudioCallback.cpp
+        Source/DSP/Clock.cpp
+        Source/DSP/Track.cpp
+        Source/UI/TrackComponent.cpp
+        Source/UI/DeviceContainerComponent.cpp
+        Source/UI/SequencerContainerComponent.cpp
+        Source/DSP/Sequencers/RepeatingSequencer.cpp
+        Source/UI/Sequencers/RepeatingSequencerComponent.cpp
+        Source/DSP/Sequencers/RandomSequencer.cpp
+        Source/UI/Sequencers/RandomSequencerComponent.cpp
+        Source/UI/SynthContainerComponent.cpp
+        Source/DSP/Synths/PingSynth.cpp
+        Source/UI/Synths/PingSynthComponent.cpp
+        Source/DSP/Synths/NoiseSynth.cpp
+        Source/UI/Synths/NoiseSynthComponent.cpp
+        Source/DSP/Synths/SamplerSynth.cpp
+        Source/UI/Synths/SamplerSynthComponent.cpp
+        Source/DSP/Synths/DrumSampleSynth.cpp
+        Source/UI/Synths/DrumSampleSynthComponent.cpp)
 
 target_compile_definitions(daw
     PRIVATE

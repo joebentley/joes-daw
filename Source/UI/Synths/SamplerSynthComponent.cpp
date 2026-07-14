@@ -1,6 +1,6 @@
 #include "SamplerSynthComponent.h"
 
-#include "../SettingsSingleton.h"
+#include "../../SettingsSingleton.h"
 
 SamplerSynthComponent::SamplerSynthComponent(Settings::SamplerSynth &settings) : m_settings(settings) {
     if (const auto file = juce::File(settings.sample); file.existsAsFile()) {

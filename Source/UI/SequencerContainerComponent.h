@@ -1,8 +1,8 @@
 #pragma once
 #include "DeviceContainerComponent.h"
 #include "SequencerComponent.h"
-#include "Settings.h"
-#include "Track.h"
+#include "../Settings.h"
+#include "../DSP/Track.h"
 
 
 class SequencerContainerComponent : public DeviceContainerComponent, public juce::ComboBox::Listener {
