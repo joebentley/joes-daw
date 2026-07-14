@@ -13,6 +13,9 @@ void ScrollingLabelComponent::paint(juce::Graphics &g) {
 }
 
 void ScrollingLabelComponent::timerCallback() {
+    if (m_text.isEmpty())
+        return;
+
     m_scroll += m_scrollDir;
 
     const float textWidth = juce::TextLayout::getStringWidth(juce::AttributedString(m_text));
