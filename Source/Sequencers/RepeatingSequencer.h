@@ -14,7 +14,6 @@ public:
 
     void setRate(double rate) {
         m_rate = rate;
-        m_lastEvent = -1.0;
     }
 
     [[nodiscard]] double note() const {

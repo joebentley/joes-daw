@@ -14,7 +14,6 @@ public:
 
     void setLowRate(double lowRate) {
         m_lowRate = lowRate;
-        m_lastEvent = -1.0;
     }
 
     [[nodiscard]] double highRate() const {
@@ -23,7 +22,6 @@ public:
 
     void setHighRate(double highRate) {
         m_highRate = highRate;
-        m_lastEvent = -1.0;
     }
 
     [[nodiscard]] int lowNote() const {

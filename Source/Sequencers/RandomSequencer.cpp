@@ -29,6 +29,10 @@ juce::Array<Event> RandomSequencer::generateEventsForTimes(double startTime, dou
         return events;
     }
 
+    // This can happen if we increase the rate slider too quickly
+    if (nextEvent < startTime)
+        m_lastEvent = -1.0;
+
     return events;
 }
 
