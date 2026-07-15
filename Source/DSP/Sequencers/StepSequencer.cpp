@@ -6,7 +6,10 @@ juce::Array<Event> StepSequencer::generateEventsForTimes(double startTime, doubl
     juce::Array<Event> events;
 
     for (auto [time, note]: clockEvents) {
-        events.add(Event(time, static_cast<double>(m_notes[m_current])));
+        const auto currentNote = m_notes[m_current];
+
+        if (currentNote > 0)
+            events.add(Event(time, static_cast<double>(currentNote)));
 
         m_current++;
         if (m_current > 15)

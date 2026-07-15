@@ -38,7 +38,19 @@ void StepSequencerComponent::timerCallback() {
     repaint();
 }
 
+void StepSequencerComponent::mouseDown(const juce::MouseEvent &event) {
+    if (!event.mods.isRightButtonDown())
+        return;
+
+    const auto mousePos = event.getPosition();
+    const int cellNumber = mousePos.x / cellWidth;
+    m_stepSequencer.setStep(cellNumber, -1);
+}
+
 void StepSequencerComponent::mouseDrag(const juce::MouseEvent &event) {
+    if (event.mods.isRightButtonDown())
+        return;
+
     const auto mousePos = event.getPosition();
     const int cellNumber = mousePos.x / cellWidth;
     const int cellMidiNote = (height - mousePos.y) / cellHeight() + m_lowRange;
