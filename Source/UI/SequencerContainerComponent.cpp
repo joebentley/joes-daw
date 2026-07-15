@@ -3,6 +3,7 @@
 #include "../SettingsSingleton.h"
 #include "Sequencers/RandomSequencerComponent.h"
 #include "Sequencers/RepeatingSequencerComponent.h"
+#include "Sequencers/StepSequencerComponent.h"
 
 
 SequencerContainerComponent::SequencerContainerComponent(Track &trackToInitialise,
@@ -11,6 +12,7 @@ SequencerContainerComponent::SequencerContainerComponent(Track &trackToInitialis
       m_sequencerComponent(createInitialSequencerComponent()) {
     m_deviceTypeComboBox.addItem("RepeatingSequencer", 1);
     m_deviceTypeComboBox.addItem("RandomSequencer", 2);
+    m_deviceTypeComboBox.addItem("StepSequencer", 3);
 
     switch (settings.type) {
         case Settings::SequencerType::REPEATING_SEQUENCER:
@@ -18,6 +20,9 @@ SequencerContainerComponent::SequencerContainerComponent(Track &trackToInitialis
             break;
         case Settings::SequencerType::RANDOM_SEQUENCER:
             m_deviceTypeComboBox.setSelectedId(2);
+            break;
+        case Settings::SequencerType::STEP_SEQUENCER:
+            m_deviceTypeComboBox.setSelectedId(3);
             break;
     }
 
@@ -68,6 +73,12 @@ void SequencerContainerComponent::comboBoxChanged(juce::ComboBox *comboBoxThatHa
             .lowRate = 0.5, .highRate = 2.0, .lowNote = 40, .highNote = 80
         };
         m_sequencerComponent = new RandomSequencerComponent(std::get<Settings::RandomSequencer>(m_settings.settings));
+    } else if (text == "StepSequencer") {
+        m_settings.type = Settings::SequencerType::STEP_SEQUENCER;
+        m_settings.settings = Settings::StepSequencer{};
+        m_sequencerComponent = new StepSequencerComponent(std::get<Settings::StepSequencer>(m_settings.settings));
+    } else {
+        jassertfalse;
     }
     SettingsSingleton::getInstance()->save();
 
@@ -86,6 +97,8 @@ SequencerComponent *SequencerContainerComponent::createInitialSequencerComponent
             return new RepeatingSequencerComponent(std::get<Settings::RepeatingSequencer>(m_settings.settings));
         case Settings::SequencerType::RANDOM_SEQUENCER:
             return new RandomSequencerComponent(std::get<Settings::RandomSequencer>(m_settings.settings));
+        case Settings::SequencerType::STEP_SEQUENCER:
+            return new StepSequencerComponent(std::get<Settings::StepSequencer>(m_settings.settings));
     }
     jassertfalse;
     return nullptr;

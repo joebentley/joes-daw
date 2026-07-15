@@ -35,6 +35,8 @@ target_sources(daw
         Source/UI/Sequencers/RepeatingSequencerComponent.cpp
         Source/DSP/Sequencers/RandomSequencer.cpp
         Source/UI/Sequencers/RandomSequencerComponent.cpp
+        Source/DSP/Sequencers/StepSequencer.cpp
+        Source/UI/Sequencers/StepSequencerComponent.cpp
         Source/UI/SynthContainerComponent.cpp
         Source/DSP/Synths/PingSynth.cpp
         Source/UI/Synths/PingSynthComponent.cpp

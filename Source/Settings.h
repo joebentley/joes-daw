@@ -28,12 +28,13 @@ namespace juce {
 
 namespace Settings {
     enum class SequencerType {
-        RANDOM_SEQUENCER, REPEATING_SEQUENCER
+        RANDOM_SEQUENCER, REPEATING_SEQUENCER, STEP_SEQUENCER
     };
 
     NLOHMANN_JSON_SERIALIZE_ENUM(SequencerType, {
                                  {SequencerType::RANDOM_SEQUENCER, "RANDOM_SEQUENCER"},
-                                 {SequencerType::REPEATING_SEQUENCER, "REPEATING_SEQUENCER"}
+                                 {SequencerType::REPEATING_SEQUENCER, "REPEATING_SEQUENCER"},
+                                 {SequencerType::STEP_SEQUENCER, "STEP_SEQUENCER"}
                                  })
 
     struct RandomSequencer {
@@ -52,10 +53,16 @@ namespace Settings {
 
     NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(RepeatingSequencer, rate, note)
 
+    struct StepSequencer {
+        int notes[16];
+    };
+
+    NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(StepSequencer, notes)
+
     struct Sequencer {
         SequencerType type;
 
-        std::variant<RandomSequencer, RepeatingSequencer> settings;
+        std::variant<RandomSequencer, RepeatingSequencer, StepSequencer> settings;
 
         static Sequencer standard() {
             return {
@@ -80,6 +87,9 @@ namespace Settings {
             case SequencerType::REPEATING_SEQUENCER:
                 to_json(jsonSequencerSettings, std::get<RepeatingSequencer>(sequencer.settings));
                 break;
+            case SequencerType::STEP_SEQUENCER:
+                to_json(jsonSequencerSettings, std::get<StepSequencer>(sequencer.settings));
+                break;
         }
 
         j = json({{"type", jsonSequencerType}, {"settings", jsonSequencerSettings}});
@@ -98,6 +108,11 @@ namespace Settings {
                 RepeatingSequencer repeatingSequencer;
                 j.at("settings").get_to(repeatingSequencer);
                 sequencer.settings = repeatingSequencer;
+                break;
+            case SequencerType::STEP_SEQUENCER:
+                StepSequencer stepSequencer;
+                j.at("settings").get_to(stepSequencer);
+                sequencer.settings = stepSequencer;
                 break;
         }
     }
