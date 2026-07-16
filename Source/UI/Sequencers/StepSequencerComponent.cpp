@@ -39,25 +39,17 @@ void StepSequencerComponent::timerCallback() {
 }
 
 void StepSequencerComponent::mouseDown(const juce::MouseEvent &event) {
-    if (!event.mods.isRightButtonDown())
-        return;
-
-    const auto mousePos = event.getPosition();
-    const int cellNumber = mousePos.x / cellWidth;
-    m_stepSequencer.setStep(cellNumber, -1);
+    if (event.mods.isLeftButtonDown())
+        handleLeftMouseEvent(event);
+    else if (event.mods.isRightButtonDown())
+        handleRightMouseEvent(event);
 }
 
 void StepSequencerComponent::mouseDrag(const juce::MouseEvent &event) {
-    if (event.mods.isRightButtonDown())
-        return;
-
-    const auto mousePos = event.getPosition();
-    const int cellNumber = mousePos.x / cellWidth;
-    const int cellMidiNote = (height - mousePos.y) / cellHeight() + m_lowRange;
-    if (m_stepSequencer.setStep(cellNumber, cellMidiNote)) {
-        m_settings.notes[cellNumber] = cellMidiNote;
-        SettingsSingleton::getInstance()->save();
-    }
+    if (event.mods.isLeftButtonDown())
+        handleLeftMouseEvent(event);
+    else if (event.mods.isRightButtonDown())
+        handleRightMouseEvent(event);
 }
 
 bool StepSequencerComponent::keyPressed(const juce::KeyPress &key) {
@@ -76,5 +68,21 @@ bool StepSequencerComponent::keyPressed(const juce::KeyPress &key) {
 
 int StepSequencerComponent::cellHeight() const {
     return (height - ledArea) / (m_highRange - m_lowRange);
+}
+
+void StepSequencerComponent::handleLeftMouseEvent(const juce::MouseEvent &event) {
+    const auto mousePos = event.getPosition();
+    const int cellNumber = mousePos.x / cellWidth;
+    const int cellMidiNote = (height - mousePos.y) / cellHeight() + m_lowRange;
+    if (m_stepSequencer.setStep(cellNumber, cellMidiNote)) {
+        m_settings.notes[cellNumber] = cellMidiNote;
+        SettingsSingleton::getInstance()->save();
+    }
+}
+
+void StepSequencerComponent::handleRightMouseEvent(const juce::MouseEvent &event) {
+    const auto mousePos = event.getPosition();
+    const int cellNumber = mousePos.x / cellWidth;
+    m_stepSequencer.setStep(cellNumber, -1);
 }
 

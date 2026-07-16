@@ -28,4 +28,8 @@ private:
     int m_highRange = 80;
 
     int cellHeight() const;
+
+    void handleLeftMouseEvent(const juce::MouseEvent &event);
+
+    void handleRightMouseEvent(const juce::MouseEvent &event);
 };
