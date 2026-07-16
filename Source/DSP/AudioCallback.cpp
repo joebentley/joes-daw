@@ -73,6 +73,9 @@ void AudioCallback::audioDeviceIOCallbackWithContext(const float *const *, int,
             if (mixed > 1.0) {
                 mixed = 1.0;
             }
+            if (mixed < -1.0) {
+                mixed = -1.0;
+            }
 
             toFill.setSample(channel, sample, mixed);
         }
