@@ -24,7 +24,7 @@ void StepSequencerComponent::paint(juce::Graphics &g) {
     g.fillRect(0, 0, width, height);
 
     for (int i = 0; i < numCells; i++) {
-        const auto cellY = height - (m_stepSequencer.getStep(i) - m_lowRange) * cellHeight();
+        const auto cellY = height - (m_stepSequencer.getStep(i) - m_lowRange + 1) * cellHeight();
         g.setColour(juce::Colours::lightgreen);
         g.fillRect(i * cellWidth, cellY, cellWidth, cellHeight());
     }
