@@ -2,6 +2,9 @@
 
 #include "../Sequencer.h"
 
+/// Repeating sequencer that repeats events starting at time 0.0
+/// This means that two repeating sequencers that have rates
+/// that are multiples of each other will be synced
 class RepeatingSequencer : public Sequencer {
 public:
     explicit RepeatingSequencer(double rate = 1.0, double note = 60.0);
@@ -13,6 +16,7 @@ public:
     }
 
     void setRate(double rate) {
+        m_lastEvent = -1.0;
         m_rate = rate;
     }
 
