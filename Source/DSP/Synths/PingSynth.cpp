@@ -2,7 +2,7 @@
 #include "PingVoice.h"
 
 PingSynth::PingSynth() {
-    for (int i = 0; i < 8; i++) {
+    for (int i = 0; i < 16; i++) {
         m_voices.push_back(std::make_unique<PingVoice>());
     }
 }

@@ -5,7 +5,7 @@
 SamplerSynth::SamplerSynth() {
     m_audioFormatManager.registerBasicFormats();
 
-    for (int i = 0; i < 8; ++i) {
+    for (int i = 0; i < 16; ++i) {
         m_voices.push_back(std::make_unique<SamplerVoice>());
     }
 }
