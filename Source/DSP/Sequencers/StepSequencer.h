@@ -17,6 +17,8 @@ public:
 
     bool removeNote(int step, int note);
 
+    [[nodiscard]] bool isNoteOn(int step, int note) const;
+
     [[nodiscard]] int current() const { return m_current; }
 
 private:

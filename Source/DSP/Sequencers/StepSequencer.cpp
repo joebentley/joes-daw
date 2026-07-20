@@ -41,3 +41,7 @@ bool StepSequencer::removeNote(const int step, const int note) {
     }
     return false;
 }
+
+bool StepSequencer::isNoteOn(const int step, const int note) const {
+    return std::ranges::find(m_notes[step], note) != m_notes[step].end();
+}

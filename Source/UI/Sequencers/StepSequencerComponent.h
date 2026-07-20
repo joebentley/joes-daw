@@ -16,8 +16,6 @@ public:
 
     void mouseDown(const juce::MouseEvent &event) override;
 
-    // void mouseDrag(const juce::MouseEvent &event) override;
-
     bool keyPressed(const juce::KeyPress &key) override;
 
 private:
@@ -30,6 +28,4 @@ private:
     int cellHeight() const;
 
     void handleLeftMouseEvent(const juce::MouseEvent &event);
-
-    void handleRightMouseEvent(const juce::MouseEvent &event);
 };
