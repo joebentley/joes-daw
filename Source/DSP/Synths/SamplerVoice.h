@@ -11,6 +11,8 @@ public:
 
     void setBuffer(juce::AudioBuffer<float> *sampleBuffer) { m_sampleBuffer = sampleBuffer; }
 
+    void setRespondsToMidiNote(const int respondsToMidiNote) { m_respondsToMidiNote = respondsToMidiNote; }
+
 private:
     juce::AudioBuffer<float> *m_sampleBuffer = nullptr;
 
@@ -18,6 +20,8 @@ private:
     double m_samplePlaybackRate = 1.0;
 
     double m_decayRate = 10.0;
+
+    int m_respondsToMidiNote = -1;
 
     static double rateFromMidiNote(double midiNote);
 };

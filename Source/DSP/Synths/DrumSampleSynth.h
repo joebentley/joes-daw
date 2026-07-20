@@ -10,12 +10,9 @@ public:
 
     void setSamplerSynth(Synth *samplerSynth, int i) {
         m_samplerSynth[i] = samplerSynth;
+        dynamic_cast<SamplerSynth *>(samplerSynth)->setRespondsToMidiNote(i + 60);
     }
 
 private:
     Synth *m_samplerSynth[4] = {nullptr};
-
-    int m_chosenSample = 0;
-
-    void setChosenSampleFromMidiNote(int midiNote);
 };

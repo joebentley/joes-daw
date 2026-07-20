@@ -2,30 +2,15 @@
 
 void DrumSampleSynth::renderNextBlock(const Clock &clock, const juce::Array<Event> &eventBuffer,
                                       juce::AudioBuffer<float> &toFill) {
-    if (m_samplerSynth[m_chosenSample] == nullptr) {
-        toFill.clear();
-        return;
+    toFill.clear();
+
+    for (const auto synth: m_samplerSynth) {
+        if (synth != nullptr) {
+            juce::AudioBuffer<float> toFillSingleVoice(2, toFill.getNumSamples());
+            synth->renderNextBlock(clock, eventBuffer, toFillSingleVoice);
+
+            toFill.addFrom(0, 0, toFillSingleVoice, 0, 0, toFillSingleVoice.getNumSamples());
+            toFill.addFrom(1, 0, toFillSingleVoice, 1, 0, toFillSingleVoice.getNumSamples());
+        }
     }
-
-    if (eventBuffer.size() > 0) {
-        setChosenSampleFromMidiNote(static_cast<int>(eventBuffer[0].midiNote));
-    }
-
-    auto midiNoteFixedEvents = eventBuffer;
-
-    for (auto &[time, midiNote]: midiNoteFixedEvents) {
-        midiNote = 60.0;
-    }
-
-    m_samplerSynth[m_chosenSample]->renderNextBlock(clock, midiNoteFixedEvents, toFill);
-}
-
-void DrumSampleSynth::setChosenSampleFromMidiNote(int midiNote) {
-    // sample 0 = middle C = 60
-
-    m_chosenSample = midiNote - 60;
-    if (m_chosenSample < 0)
-        m_chosenSample = 0;
-    if (m_chosenSample > 3)
-        m_chosenSample = 3;
 }

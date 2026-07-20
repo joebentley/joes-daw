@@ -28,6 +28,12 @@ void SamplerSynth::setFile(const juce::File &file) {
     m_queuedSampleFile = file;
 }
 
+void SamplerSynth::setRespondsToMidiNote(const int respondsToMidiNote) const {
+    for (auto &voice: m_voices) {
+        dynamic_cast<SamplerVoice *>(voice.get())->setRespondsToMidiNote(respondsToMidiNote);
+    }
+}
+
 void SamplerSynth::loadSampleFile() {
     m_sampleFile = m_queuedSampleFile;
 

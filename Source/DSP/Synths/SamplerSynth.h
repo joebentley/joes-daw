@@ -12,6 +12,8 @@ public:
 
     void setFile(const juce::File &file);
 
+    void setRespondsToMidiNote(int respondsToMidiNote) const;
+
 private:
     juce::AudioFormatManager m_audioFormatManager;
     juce::File m_sampleFile;

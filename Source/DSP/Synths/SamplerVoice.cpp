@@ -33,9 +33,15 @@ std::tuple<float, float> SamplerVoice::nextStereoSample(double time) {
 }
 
 void SamplerVoice::handleEvent(const Event event) {
-    Voice::handleEvent(event);
-    m_samplePointer = 0;
-    m_samplePlaybackRate = rateFromMidiNote(event.midiNote);
+    if (m_respondsToMidiNote == -1 || static_cast<int>(event.midiNote) == m_respondsToMidiNote) {
+        Voice::handleEvent(event);
+        m_samplePointer = 0;
+
+        if (m_respondsToMidiNote != -1)
+            m_samplePlaybackRate = 1.0;
+        else
+            m_samplePlaybackRate = rateFromMidiNote(event.midiNote);
+    }
 }
 
 double SamplerVoice::rateFromMidiNote(double midiNote) {
