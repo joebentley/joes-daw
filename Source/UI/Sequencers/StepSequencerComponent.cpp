@@ -30,6 +30,11 @@ void StepSequencerComponent::paint(juce::Graphics &g) {
     g.fillRect(0, 0, width, height);
 
     for (int i = 0; i < numCells; i++) {
+        if (i % 4 == 0) {
+            g.setColour(juce::Colour(0xff909090));
+            g.fillRect(i * cellWidth, 0, cellWidth, height);
+        }
+
         for (auto note: m_stepSequencer.getStep(i)) {
             const auto cellY = height - (note - m_lowRange + 1) * cellHeight();
             g.setColour(juce::Colours::lightgreen);
