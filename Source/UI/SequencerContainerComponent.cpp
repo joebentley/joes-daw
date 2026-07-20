@@ -75,7 +75,7 @@ void SequencerContainerComponent::comboBoxChanged(juce::ComboBox *comboBoxThatHa
         m_sequencerComponent = new RandomSequencerComponent(std::get<Settings::RandomSequencer>(m_settings.settings));
     } else if (text == "StepSequencer") {
         m_settings.type = Settings::SequencerType::STEP_SEQUENCER;
-        m_settings.settings = Settings::StepSequencer{};
+        m_settings.settings = Settings::StepSequencer{.notes = {std::vector<int>()}};
         m_sequencerComponent = new StepSequencerComponent(std::get<Settings::StepSequencer>(m_settings.settings));
     } else {
         jassertfalse;

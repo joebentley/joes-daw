@@ -9,7 +9,9 @@ StepSequencerComponent::StepSequencerComponent(Settings::StepSequencer &settings
     setWantsKeyboardFocus(true);
 
     for (int i = 0; i < 16; ++i) {
-        m_stepSequencer.setStep(i, settings.notes[i]);
+        for (const auto note: settings.notes[i]) {
+            m_stepSequencer.addNote(i, note);
+        }
     }
 }
 
@@ -24,9 +26,11 @@ void StepSequencerComponent::paint(juce::Graphics &g) {
     g.fillRect(0, 0, width, height);
 
     for (int i = 0; i < numCells; i++) {
-        const auto cellY = height - (m_stepSequencer.getStep(i) - m_lowRange + 1) * cellHeight();
-        g.setColour(juce::Colours::lightgreen);
-        g.fillRect(i * cellWidth, cellY, cellWidth, cellHeight());
+        for (auto note: m_stepSequencer.getStep(i)) {
+            const auto cellY = height - (note - m_lowRange + 1) * cellHeight();
+            g.setColour(juce::Colours::lightgreen);
+            g.fillRect(i * cellWidth, cellY, cellWidth, cellHeight());
+        }
     }
 
     const auto currentStep = m_stepSequencer.current();
@@ -45,12 +49,12 @@ void StepSequencerComponent::mouseDown(const juce::MouseEvent &event) {
         handleRightMouseEvent(event);
 }
 
-void StepSequencerComponent::mouseDrag(const juce::MouseEvent &event) {
-    if (event.mods.isLeftButtonDown())
-        handleLeftMouseEvent(event);
-    else if (event.mods.isRightButtonDown())
-        handleRightMouseEvent(event);
-}
+// void StepSequencerComponent::mouseDrag(const juce::MouseEvent &event) {
+//     if (event.mods.isLeftButtonDown())
+//         handleLeftMouseEvent(event);
+//     else if (event.mods.isRightButtonDown())
+//         handleRightMouseEvent(event);
+// }
 
 bool StepSequencerComponent::keyPressed(const juce::KeyPress &key) {
     if (key.getKeyCode() == key.upKey) {
@@ -74,8 +78,8 @@ void StepSequencerComponent::handleLeftMouseEvent(const juce::MouseEvent &event)
     const auto mousePos = event.getPosition();
     const int cellNumber = mousePos.x / cellWidth;
     const int cellMidiNote = (height - mousePos.y) / cellHeight() + m_lowRange;
-    if (m_stepSequencer.setStep(cellNumber, cellMidiNote)) {
-        m_settings.notes[cellNumber] = cellMidiNote;
+    if (m_stepSequencer.addNote(cellNumber, cellMidiNote)) {
+        m_settings.notes[cellNumber].push_back(cellMidiNote);
         SettingsSingleton::getInstance()->save();
     }
 }
@@ -83,6 +87,12 @@ void StepSequencerComponent::handleLeftMouseEvent(const juce::MouseEvent &event)
 void StepSequencerComponent::handleRightMouseEvent(const juce::MouseEvent &event) {
     const auto mousePos = event.getPosition();
     const int cellNumber = mousePos.x / cellWidth;
-    m_stepSequencer.setStep(cellNumber, -1);
+    const int cellMidiNote = (height - mousePos.y) / cellHeight() + m_lowRange;
+    if (m_stepSequencer.removeNote(cellNumber, cellMidiNote)) {
+        const auto it = std::ranges::find(m_settings.notes[cellNumber], cellMidiNote);
+        jassert(it != m_settings.notes[cellNumber].end());
+        m_settings.notes[cellNumber].erase(it);
+        SettingsSingleton::getInstance()->save();
+    }
 }
 

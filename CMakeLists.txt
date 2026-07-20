@@ -28,6 +28,7 @@ target_sources(daw
         Source/DSP/AudioCallback.cpp
         Source/DSP/Clock.cpp
         Source/DSP/Track.cpp
+        Source/DSP/Synth.cpp
         Source/UI/TrackComponent.cpp
         Source/UI/DeviceContainerComponent.cpp
         Source/UI/SequencerContainerComponent.cpp
@@ -39,6 +40,7 @@ target_sources(daw
         Source/UI/Sequencers/StepSequencerComponent.cpp
         Source/UI/SynthContainerComponent.cpp
         Source/DSP/Synths/PingSynth.cpp
+        Source/DSP/Synths/PingVoice.cpp
         Source/UI/Synths/PingSynthComponent.cpp
         Source/DSP/Synths/NoiseSynth.cpp
         Source/UI/Synths/NoiseSynthComponent.cpp

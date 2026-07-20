@@ -17,11 +17,11 @@ struct SettingsLoadException : std::exception {
 };
 
 namespace juce {
-    inline void to_json(json &j, const juce::String &string) {
+    inline void to_json(json &j, const String &string) {
         j = string.toRawUTF8();
     }
 
-    inline void from_json(const json &j, juce::String &string) {
+    inline void from_json(const json &j, String &string) {
         string = j.get<std::string>().c_str();
     }
 }
@@ -54,7 +54,7 @@ namespace Settings {
     NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(RepeatingSequencer, rate, note)
 
     struct StepSequencer {
-        int notes[16];
+        std::vector<int> notes[16];
     };
 
     NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(StepSequencer, notes)

@@ -7,30 +7,20 @@ class StepSequencer : public Sequencer {
 public:
     juce::Array<Event> generateEventsForTimes(double startTime, double endTime) override;
 
-    [[nodiscard]] int getStep(const int i) const {
+    [[nodiscard]] std::vector<int> getStep(const int i) const {
         if (i >= 0 && i < 16)
             return m_notes[i];
-        return -1;
+        return {};
     }
 
-    // Returns true if the step changed
-    bool setStep(const int i, const int note) {
-        if (i >= 0 && i < 16) {
-            if (m_notes[i] == note)
-                return false;
+    bool addNote(int step, int note);
 
-            m_notes[i] = note;
-            return true;
-        }
-        return false;
-    }
+    bool removeNote(int step, int note);
 
     [[nodiscard]] int current() const { return m_current; }
 
-    void randomiseInRange(int low, int high);
-
 private:
-    int m_notes[16] = {};
+    std::vector<int> m_notes[16] = {};
     int m_current = 0;
 
     RepeatingSequencer m_repeatingSequencer{8};

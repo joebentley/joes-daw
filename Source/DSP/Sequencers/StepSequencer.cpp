@@ -5,11 +5,11 @@ juce::Array<Event> StepSequencer::generateEventsForTimes(double startTime, doubl
 
     juce::Array<Event> events;
 
-    for (auto [time, note]: clockEvents) {
-        const auto currentNote = m_notes[m_current];
-
-        if (currentNote > 0)
-            events.add(Event(time, static_cast<double>(currentNote)));
+    for (auto [time, _note]: clockEvents) {
+        for (const auto currentNote: m_notes[m_current]) {
+            if (currentNote > 0)
+                events.add(Event(time, static_cast<double>(currentNote)));
+        }
 
         m_current++;
         if (m_current > 15)
@@ -19,10 +19,25 @@ juce::Array<Event> StepSequencer::generateEventsForTimes(double startTime, doubl
     return events;
 }
 
-void StepSequencer::randomiseInRange(int low, int high) {
-    juce::Random random;
+bool StepSequencer::addNote(const int step, const int note) {
+    if (step >= 0 && step < 16) {
+        if (std::ranges::find(m_notes[step], note) != m_notes[step].end())
+            return false;
 
-    for (auto &note: m_notes) {
-        note = static_cast<int>(round(random.nextFloat() * static_cast<float>(high - low) + static_cast<float>(low)));
+        m_notes[step].push_back(note);
+
+        return true;
     }
+    return false;
+}
+
+bool StepSequencer::removeNote(const int step, const int note) {
+    if (step >= 0 && step < 16) {
+        if (const auto it = std::ranges::find(m_notes[step], note); it != m_notes[step].end()) {
+            m_notes[step].erase(it);
+            return true;
+        }
+        return false;
+    }
+    return false;
 }
