@@ -45,6 +45,7 @@ target_sources(daw
         Source/DSP/Synths/NoiseSynth.cpp
         Source/UI/Synths/NoiseSynthComponent.cpp
         Source/DSP/Synths/SamplerSynth.cpp
+        Source/DSP/Synths/SamplerVoice.cpp
         Source/UI/Synths/SamplerSynthComponent.cpp
         Source/DSP/Synths/DrumSampleSynth.cpp
         Source/UI/Synths/DrumSampleSynthComponent.cpp

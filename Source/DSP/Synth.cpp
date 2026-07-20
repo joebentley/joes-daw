@@ -26,9 +26,9 @@ void Synth::renderNextBlock(const Clock &clock, const juce::Array<Event> &eventB
 
         for (const auto &v: m_voices) {
             if (v->enabled()) {
-                const float sample = v->nextSample(t);
-                lChan[i] += sample;
-                rChan[i] += sample;
+                const auto sample = v->nextStereoSample(t);
+                lChan[i] += std::get<0>(sample);
+                rChan[i] += std::get<1>(sample);
             }
         }
     }

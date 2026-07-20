@@ -10,7 +10,12 @@ class Voice {
 public:
     virtual ~Voice() = default;
 
-    virtual float nextSample(double time) = 0;
+    virtual std::tuple<float, float> nextStereoSample(const double time) {
+        float sample = nextSample(time);
+        return std::make_tuple(sample, sample);
+    }
+
+    virtual float nextSample(double /*time*/) { return 0; }
 
     virtual void handleEvent(Event event) {
         m_currentEvent = event;

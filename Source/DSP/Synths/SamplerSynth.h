@@ -18,14 +18,6 @@ private:
     juce::File m_queuedSampleFile;
     juce::AudioBuffer<float> m_sampleBuffer;
 
-    double m_samplePointer = 0.0;
-    double m_samplePlaybackRate = 1.0;
-
     void loadSampleFile();
-
-    double m_lastEventTime = 0.0;
-    double m_decayRate = 10.0;
-
-    static double rateFromMidiNote(double midiNote);
 };
 
