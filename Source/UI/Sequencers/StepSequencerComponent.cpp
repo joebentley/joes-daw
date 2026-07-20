@@ -13,6 +13,10 @@ StepSequencerComponent::StepSequencerComponent(Settings::StepSequencer &settings
             m_stepSequencer.addNote(i, note);
         }
     }
+
+    addAndMakeVisible(m_clearButton);
+    m_clearButton.setButtonText("Clear");
+    m_clearButton.addListener(this);
 }
 
 constexpr int numCells = 16;
@@ -38,6 +42,12 @@ void StepSequencerComponent::paint(juce::Graphics &g) {
     g.fillRect(currentStep * cellWidth, height - ledArea, cellWidth, ledArea);
 }
 
+void StepSequencerComponent::resized() {
+    m_clearButton.setBounds(5, 5, 50, 30);
+
+    SequencerComponent::resized();
+}
+
 void StepSequencerComponent::timerCallback() {
     repaint();
 }
@@ -58,6 +68,16 @@ bool StepSequencerComponent::keyPressed(const juce::KeyPress &key) {
         return true;
     }
     return false;
+}
+
+void StepSequencerComponent::buttonClicked(juce::Button *button) {
+    if (button == &m_clearButton) {
+        m_stepSequencer.clear();
+        for (int i = 0; i < 16; ++i) {
+            m_settings.notes[i].clear();
+        }
+        SettingsSingleton::getInstance()->save();
+    }
 }
 
 int StepSequencerComponent::cellHeight() const {
