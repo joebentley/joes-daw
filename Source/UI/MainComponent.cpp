@@ -22,8 +22,6 @@ MainComponent::MainComponent(Settings::Settings &settings)
     m_audioDeviceManager.initialiseWithDefaultDevices(0, 2);
     m_audioDeviceManager.addAudioCallback(&m_audioCallback);
 
-    // addAndMakeVisible(*m_patternComponent);
-
     addAndMakeVisible(m_mainTabbedComponent);
     m_mainTabbedComponent.addTab("timeline", getLookAndFeel().findColour(juce::ResizableWindow::backgroundColourId),
                                  &m_timelineComponent, false);
