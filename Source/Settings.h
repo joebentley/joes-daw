@@ -237,21 +237,47 @@ namespace Settings {
 
     NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(Track, enabled, sequencer, synth)
 
+    struct Pattern {
+        Track trackSettings[4];
+
+        static Pattern standard() {
+            return {
+                .trackSettings = {Track::standard(), Track::standard(), Track::standard(), Track::standard()}
+            };
+        }
+    };
+
+    NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(Pattern, trackSettings)
+
+    struct Timeline {
+        std::vector<int> patternTimeline;
+        std::unordered_map<int, Pattern> patternMap;
+
+        static Timeline standard() {
+            return {
+                .patternTimeline = {0},
+                .patternMap = {{0, Pattern::standard()}}
+            };
+        }
+    };
+
+    NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(Timeline, patternTimeline, patternMap)
+
     struct Settings {
         double masterVolume{};
         juce::String lastSampleDirectory{};
-        Track trackSettings[4];
+        Timeline timeline;
 
         static Settings standard() {
             return {
                 .masterVolume = -12.0,
                 .lastSampleDirectory = juce::File::getSpecialLocation(juce::File::userApplicationDataDirectory).
                 getFullPathName(),
-                .trackSettings = {Track::standard(), Track::standard(), Track::standard(), Track::standard()}
+                .timeline = Timeline::standard(),
             };
         }
 
-        NLOHMANN_DEFINE_TYPE_INTRUSIVE(Settings, masterVolume, lastSampleDirectory, trackSettings)
+        NLOHMANN_DEFINE_TYPE_INTRUSIVE(Settings, masterVolume, lastSampleDirectory, timeline)
 
         static Settings loadFromSettingsFile();
 

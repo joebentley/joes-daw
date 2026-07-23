@@ -28,7 +28,10 @@ target_sources(daw
         Source/DSP/AudioCallback.cpp
         Source/DSP/Clock.cpp
         Source/DSP/Track.cpp
+        Source/DSP/Timeline.cpp
         Source/DSP/Synth.cpp
+        Source/UI/TimelineComponent.cpp
+        Source/UI/PatternComponent.cpp
         Source/UI/TrackComponent.cpp
         Source/UI/DeviceContainerComponent.cpp
         Source/UI/SequencerContainerComponent.cpp
