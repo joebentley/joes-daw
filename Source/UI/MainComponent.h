@@ -12,6 +12,8 @@
 #include "../DSP/AudioCallback.h"
 #include "AudioDeviceSelectorWindow.h"
 #include "PatternComponent.h"
+#include "PatternContainerComponent.h"
+#include "TimelineComponent.h"
 #include "../DSP/Timeline.h"
 
 //==============================================================================
@@ -45,14 +47,11 @@ private:
 
     juce::Slider m_volumeSlider;
 
-    juce::Slider m_chosenPatternSlider;
-    juce::TextButton m_newPatternButton;
-    juce::TextButton m_clearPatternButton;
-
     Timeline m_timeline;
-    std::unique_ptr<PatternComponent> m_patternComponent;
 
-    void switchPattern(int i);
+    juce::TabbedComponent m_mainTabbedComponent{juce::TabbedButtonBar::TabsAtTop};
+    TimelineComponent m_timelineComponent;
+    PatternContainerComponent m_patternContainerComponent;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(MainComponent)
 };

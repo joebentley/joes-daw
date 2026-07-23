@@ -32,6 +32,7 @@ target_sources(daw
         Source/DSP/Synth.cpp
         Source/UI/TimelineComponent.cpp
         Source/UI/PatternComponent.cpp
+        Source/UI/PatternContainerComponent.cpp
         Source/UI/TrackComponent.cpp
         Source/UI/DeviceContainerComponent.cpp
         Source/UI/SequencerContainerComponent.cpp
