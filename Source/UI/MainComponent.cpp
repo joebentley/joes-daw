@@ -78,7 +78,7 @@ void MainComponent::buttonClicked(juce::Button *button) {
         m_audioDeviceSelectorWindow->centreWithSize(500, 500);
         m_audioDeviceSelectorWindow->setVisible(true);
     } else if (button == &m_newPatternButton) {
-        m_timeline.newEmptyPattern();
+        m_timeline.duplicatePattern();
         const int newPatternIndex = m_timeline.numPatterns() - 1;
         m_chosenPatternSlider.setValue(newPatternIndex);
         switchPattern(newPatternIndex);

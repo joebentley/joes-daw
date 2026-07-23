@@ -23,7 +23,7 @@ public:
 
     [[nodiscard]] int numPatterns() const;
 
-    void newEmptyPattern() const;
+    void duplicatePattern() const;
 
     void clearPattern() const;
 

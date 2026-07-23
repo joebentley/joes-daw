@@ -31,8 +31,8 @@ int Timeline::numPatterns() const {
     return static_cast<int>(m_settings.patternMap.size());
 }
 
-void Timeline::newEmptyPattern() const {
-    m_settings.patternMap[numPatterns()] = Settings::Pattern::standard();
+void Timeline::duplicatePattern() const {
+    m_settings.patternMap[numPatterns()] = m_settings.patternMap[numPatterns() - 1];
 }
 
 void Timeline::clearPattern() const {
