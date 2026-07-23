@@ -33,8 +33,10 @@ int Timeline::numPatterns() const {
 
 void Timeline::duplicatePattern() const {
     m_settings.patternMap[numPatterns()] = m_settings.patternMap[numPatterns() - 1];
+    SettingsSingleton::getInstance()->save();
 }
 
 void Timeline::clearPattern() const {
     m_settings.patternMap[m_playhead] = Settings::Pattern::standard();
+    SettingsSingleton::getInstance()->save();
 }
