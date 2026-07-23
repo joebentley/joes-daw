@@ -106,6 +106,7 @@ void MainComponent::sliderValueChanged(juce::Slider *slider) {
 
 void MainComponent::switchPattern(const int i) {
     m_timeline.setPlayhead(i);
+    // We create the new one before removing the old one to prevent segfault in the audio thread
     auto newPatternComponent = std::make_unique<PatternComponent>(m_timeline.currentPattern());
     newPatternComponent->setAudioCallbackTracks(m_audioCallback);
     removeChildComponent(m_patternComponent.get());
