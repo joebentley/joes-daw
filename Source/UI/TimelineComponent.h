@@ -4,11 +4,13 @@
 
 #include "../DSP/Timeline.h"
 
-class TimelineComponent : public juce::Component {
+class TimelineComponent : public juce::Component, public juce::TextEditor::Listener {
 public:
     explicit TimelineComponent(Settings::Timeline &settings);
 
     void resized() override;
+
+    void textEditorTextChanged(juce::TextEditor &) override;
 
 private:
     Settings::Timeline &m_settings;

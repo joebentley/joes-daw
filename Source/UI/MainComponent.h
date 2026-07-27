@@ -53,5 +53,7 @@ private:
     TimelineComponent m_timelineComponent;
     PatternContainerComponent m_patternContainerComponent;
 
+    juce::ToggleButton m_songModeToggleButton;
+
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(MainComponent)
 };

@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Clock.h"
-#include <juce_audio_basics/juce_audio_basics.h>
 
 #include "../Settings.h"
 #include "Sequencers/RepeatingSequencer.h"
@@ -11,26 +10,33 @@ public:
     explicit Timeline(Settings::Timeline &settings) : m_settings(settings) {
     }
 
-    void renderNextBlock(Clock clock, const juce::AudioBuffer<float> &toFill);
+    [[nodiscard]] bool shouldChangePattern(const Clock &clock, int numSamples);
 
     void addPatternToTimeline(int patternID) const;
 
     void setPattern(int patternID, Settings::Pattern &pattern) const;
 
-    Settings::Pattern &currentPattern() const;
+    [[nodiscard]] Settings::Pattern &currentPattern() const;
 
-    void setPlayhead(int playhead);
+    [[nodiscard]] Settings::Pattern &getPattern(int patternID) const;
+
+    [[nodiscard]] int getCurrentPatternID() const;
 
     [[nodiscard]] int numPatterns() const;
 
-    void duplicatePattern() const;
+    void duplicateCurrentPattern() const;
 
-    void clearPattern() const;
+    void clearCurrentPattern() const;
+
+    void setPlaying(bool playing);
+
+    void incrementPlayhead();
 
 private:
     Settings::Timeline &m_settings;
 
-    RepeatingSequencer m_repeatingSequencer{0.25};
+    RepeatingSequencer m_repeatingSequencer{0.5};
 
+    bool m_playing = false;
     int m_playhead = 0;
 };

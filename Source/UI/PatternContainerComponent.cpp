@@ -20,6 +20,8 @@ PatternContainerComponent::PatternContainerComponent(Timeline &timeline, AudioCa
 
     m_patternComponent->setAudioCallbackTracks(m_audioCallback);
     addAndMakeVisible(*m_patternComponent);
+
+    m_audioCallback.setListener(this);
 }
 
 void PatternContainerComponent::resized() {
@@ -35,12 +37,12 @@ void PatternContainerComponent::resized() {
 
 void PatternContainerComponent::buttonClicked(juce::Button *button) {
     if (button == &m_newPatternButton) {
-        m_timeline.duplicatePattern();
+        m_timeline.duplicateCurrentPattern();
         const int newPatternIndex = m_timeline.numPatterns() - 1;
         m_chosenPatternSlider.setValue(newPatternIndex);
         switchPattern(newPatternIndex);
     } else if (button == &m_clearPatternButton) {
-        m_timeline.clearPattern();
+        m_timeline.clearCurrentPattern();
         switchPattern(static_cast<int>(m_chosenPatternSlider.getValue()));
     }
 }
@@ -57,10 +59,14 @@ void PatternContainerComponent::sliderValueChanged(juce::Slider *slider) {
     }
 }
 
-void PatternContainerComponent::switchPattern(int i) {
-    m_timeline.setPlayhead(i);
+void PatternContainerComponent::patternChanged(int newPatternIndex) {
+    m_chosenPatternSlider.setValue(newPatternIndex);
+    switchPattern(newPatternIndex);
+}
+
+void PatternContainerComponent::switchPattern(int patternID) {
     // We create the new one before removing the old one to prevent segfault in the audio thread
-    auto newPatternComponent = std::make_unique<PatternComponent>(m_timeline.currentPattern());
+    auto newPatternComponent = std::make_unique<PatternComponent>(m_timeline.getPattern(patternID));
     newPatternComponent->setAudioCallbackTracks(m_audioCallback);
     removeChildComponent(m_patternComponent.get());
     m_patternComponent = std::move(newPatternComponent);

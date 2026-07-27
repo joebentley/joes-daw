@@ -37,6 +37,13 @@ inline void protectYourEars(float *buffer, int sampleCount) {
 }
 
 
+AudioCallback::AudioCallback(Timeline &timeline) : m_timeline(timeline) {
+}
+
+void AudioCallback::setListener(Listener *listener) {
+    m_listener = listener;
+}
+
 void AudioCallback::audioDeviceIOCallbackWithContext(const float *const *, int,
                                                      float *const *outputChannelData, int numOutputChannels,
                                                      int numSamples,
@@ -51,7 +58,7 @@ void AudioCallback::audioDeviceIOCallbackWithContext(const float *const *, int,
     juce::AudioBuffer toFill(outputChannelData, numOutputChannels, numSamples);
     toFill.clear();
 
-    juce::Array<juce::AudioBuffer<float> > tracks;
+    juce::Array<juce::AudioBuffer<float>> tracks;
 
     for (int i = 0; i < 4; ++i) {
         juce::AudioBuffer<float> track(numOutputChannels, numSamples);
@@ -86,6 +93,14 @@ void AudioCallback::audioDeviceIOCallbackWithContext(const float *const *, int,
 
     protectYourEars(lchan, numSamples);
     protectYourEars(rchan, numSamples);
+
+    bool shouldChangePattern = m_timeline.shouldChangePattern(m_clock, numSamples);
+
+    if (shouldChangePattern) {
+        const juce::MessageManagerLock messageManagerLock;
+        m_listener->patternChanged(m_timeline.getCurrentPatternID());
+        m_timeline.incrementPlayhead();
+    }
 
     m_clock.addSampleCount(static_cast<uint64_t>(numSamples));
 }

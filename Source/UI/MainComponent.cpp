@@ -6,6 +6,7 @@
 //==============================================================================
 MainComponent::MainComponent(Settings::Settings &settings)
     : m_settings(settings),
+      m_audioCallback(m_timeline),
       m_timeline(settings.timeline),
       m_timelineComponent(settings.timeline),
       m_patternContainerComponent(m_timeline, m_audioCallback) {
@@ -27,6 +28,10 @@ MainComponent::MainComponent(Settings::Settings &settings)
                                  &m_timelineComponent, false);
     m_mainTabbedComponent.addTab("pattern", getLookAndFeel().findColour(juce::ResizableWindow::backgroundColourId),
                                  &m_patternContainerComponent, false);
+
+    addAndMakeVisible(m_songModeToggleButton);
+    m_songModeToggleButton.setButtonText("song mode");
+    m_songModeToggleButton.addListener(this);
 
     setSize(878, 600);
 }
@@ -50,6 +55,7 @@ void MainComponent::resized() {
     m_mainTabbedComponent.setBounds(4, 4, getWidth() - 8, getHeight() - 44);
 
     m_volumeSlider.setBounds(0, getHeight() - 35, 200, 25);
+    m_songModeToggleButton.setBounds(getWidth() / 2 - 30, getHeight() - 35, 100, 25);
     m_showAudioDeviceSelectorWindowButton.setBounds(getWidth() - 110, getHeight() - 35, 100, 25);
 }
 
@@ -60,6 +66,8 @@ void MainComponent::buttonClicked(juce::Button *button) {
         m_audioDeviceSelectorWindow->addToDesktop();
         m_audioDeviceSelectorWindow->centreWithSize(500, 500);
         m_audioDeviceSelectorWindow->setVisible(true);
+    } else if (button == &m_songModeToggleButton) {
+        m_timeline.setPlaying(m_songModeToggleButton.getToggleState());
     }
 }
 

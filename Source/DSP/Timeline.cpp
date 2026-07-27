@@ -1,12 +1,19 @@
 #include "Timeline.h"
 
+#include <juce_events/juce_events.h>
+
 #include "../SettingsSingleton.h"
 
-void Timeline::renderNextBlock(Clock clock, const juce::AudioBuffer<float> &toFill) {
-    m_settings.patternMap.contains(m_settings.patternTimeline[static_cast<size_t>(m_playhead)]);
+bool Timeline::shouldChangePattern(const Clock &clock, int numSamples) {
+    if (!m_playing)
+        return false;
 
-    auto clockEvents = m_repeatingSequencer.generateEventsForTimes(clock.getTime(),
-                                                                   clock.getTime(toFill.getNumSamples()));
+    jassert(m_settings.patternMap.contains(m_settings.patternTimeline[static_cast<size_t>(getCurrentPatternID())]));
+
+    const auto clockEvents = m_repeatingSequencer.generateEventsForTimes(clock.getTime(),
+                                                                         clock.getTime(numSamples));
+
+    return !clockEvents.isEmpty();
 }
 
 void Timeline::addPatternToTimeline(const int patternID) const {
@@ -20,23 +27,35 @@ void Timeline::setPattern(const int patternID, Settings::Pattern &pattern) const
 }
 
 Settings::Pattern &Timeline::currentPattern() const {
-    return m_settings.patternMap[m_playhead];
+    return m_settings.patternMap[getCurrentPatternID()];
 }
 
-void Timeline::setPlayhead(int playhead) {
-    m_playhead = playhead;
+Settings::Pattern &Timeline::getPattern(int patternID) const {
+    return m_settings.patternMap[patternID];
+}
+
+int Timeline::getCurrentPatternID() const {
+    return m_settings.patternTimeline[static_cast<size_t>(m_playhead)];
 }
 
 int Timeline::numPatterns() const {
     return static_cast<int>(m_settings.patternMap.size());
 }
 
-void Timeline::duplicatePattern() const {
+void Timeline::duplicateCurrentPattern() const {
     m_settings.patternMap[numPatterns()] = m_settings.patternMap[numPatterns() - 1];
     SettingsSingleton::getInstance()->save();
 }
 
-void Timeline::clearPattern() const {
-    m_settings.patternMap[m_playhead] = Settings::Pattern::standard();
+void Timeline::clearCurrentPattern() const {
+    m_settings.patternMap[getCurrentPatternID()] = Settings::Pattern::standard();
     SettingsSingleton::getInstance()->save();
+}
+
+void Timeline::setPlaying(const bool playing) {
+    m_playing = playing;
+}
+
+void Timeline::incrementPlayhead() {
+    m_playhead = (m_playhead + 1) % static_cast<int>(m_settings.patternTimeline.size());
 }
